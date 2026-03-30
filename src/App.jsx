@@ -108,7 +108,7 @@ function Navbar() {
               {l}
             </a>
           ))}
-          <a href="tel:9405334300" style={{ background: 'linear-gradient(135deg,#c8763a,#e8a44a)', color: '#fff', padding: '9px 20px', borderRadius: 30, fontSize: 13, fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 16px rgba(200,118,58,.4)', transition: 'transform .2s, box-shadow .2s' }}
+          <a href="tel:8857009635" style={{ background: 'linear-gradient(135deg,#c8763a,#e8a44a)', color: '#fff', padding: '9px 20px', borderRadius: 30, fontSize: 13, fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 16px rgba(200,118,58,.4)', transition: 'transform .2s, box-shadow .2s' }}
             onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 24px rgba(200,118,58,.5)' }}
             onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 16px rgba(200,118,58,.4)' }}>
             📞 Call Now
@@ -161,12 +161,12 @@ function Hero() {
 
         {/* CTAs */}
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          <a href="tel:9405334300" style={{ background: 'linear-gradient(135deg,#c8763a,#f5c842)', color: '#2d1a0a', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 30px rgba(200,118,58,.5)', display: 'flex', alignItems: 'center', gap: 8, transition: 'transform .2s' }}
+          <a href="tel:8857009635" style={{ background: 'linear-gradient(135deg,#c8763a,#f5c842)', color: '#2d1a0a', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 30px rgba(200,118,58,.5)', display: 'flex', alignItems: 'center', gap: 8, transition: 'transform .2s' }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-            📞 Call: 9405334300
+            📞 Call: 8857009635
           </a>
-          <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
+          <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
             style={{ background: 'rgba(255,255,255,.1)', border: '1.5px solid rgba(255,255,255,.35)', color: '#fff', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 700, textDecoration: 'none', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', gap: 8, transition: 'background .2s' }}
             onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,.18)'}
             onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,.1)'}>
@@ -229,7 +229,7 @@ function Rooms() {
                       </div>
                     ))}
                   </div>
-                  <a href="tel:9405334300" style={{ display: 'block', textAlign: 'center', background: active === i ? 'linear-gradient(135deg,#c8763a,#f5c842)' : '#fdf0e0', color: active === i ? '#fff' : '#c8763a', padding: '12px', borderRadius: 14, fontSize: 13, fontWeight: 700, textDecoration: 'none', transition: 'all .3s', border: '1.5px solid #e8c090' }}>
+                  <a href="tel:8857009635" style={{ display: 'block', textAlign: 'center', background: active === i ? 'linear-gradient(135deg,#c8763a,#f5c842)' : '#fdf0e0', color: active === i ? '#fff' : '#c8763a', padding: '12px', borderRadius: 14, fontSize: 13, fontWeight: 700, textDecoration: 'none', transition: 'all .3s', border: '1.5px solid #e8c090' }}>
                     Book This Room →
                   </a>
                 </div>
