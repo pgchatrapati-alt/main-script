@@ -271,25 +271,16 @@ function Navbar({onAdminClick}){
               onMouseEnter={e=>e.target.style.color='#c8763a'}
               onMouseLeave={e=>e.target.style.color=scrolled?'#4a2c10':'#fff'}>{l}</a>
           ))}
-<<<<<<< HEAD
           <button onClick={onAdminClick} style={{background:'rgba(200,118,58,.15)',border:'1px solid rgba(200,118,58,.3)',color:scrolled?'#c8763a':'#ffd9a0',padding:'6px 14px',borderRadius:20,fontSize:12,fontWeight:600,cursor:'pointer',transition:'all .2s'}}>⚙ Admin</button>
           <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s'}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'}
             onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call Now</a>
-=======
-          <a href="tel:8857009635" style={{ background: 'linear-gradient(135deg,#c8763a,#e8a44a)', color: '#fff', padding: '9px 20px', borderRadius: 30, fontSize: 13, fontWeight: 700, textDecoration: 'none', boxShadow: '0 4px 16px rgba(200,118,58,.4)', transition: 'transform .2s, box-shadow .2s' }}
-            onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 24px rgba(200,118,58,.5)' }}
-            onMouseLeave={e => { e.target.style.transform = 'translateY(0)'; e.target.style.boxShadow = '0 4px 16px rgba(200,118,58,.4)' }}>
-            📞 Call Now
-          </a>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
         </div>
       </div>
     </nav>
   );
 }
 
-<<<<<<< HEAD
 /* ── Hero ── */
 function Hero({heroImg}){
   return(
@@ -301,26 +292,6 @@ function Hero({heroImg}){
         <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(200,118,58,.25)',border:'1px solid rgba(232,164,74,.4)',borderRadius:30,padding:'6px 16px',marginBottom:24,backdropFilter:'blur(8px)'}}>
           <div style={{width:6,height:6,borderRadius:'50%',background:'#f5c842',boxShadow:'0 0 8px #f5c842'}}/>
           <span style={{fontSize:11,color:'#ffd9a0',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase'}}>Fatehganj, Bareilly</span>
-=======
-/* ─── Hero ─── */
-function Hero() {
-  return (
-    <section id="home" style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-      {/* BG image */}
-      <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${IMGS.hero})`, backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(.45)' }} />
-      {/* Warm gradient overlay */}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg,rgba(60,20,5,.75) 0%,rgba(180,90,20,.35) 50%,rgba(0,0,0,.2) 100%)' }} />
-
-      {/* Decorative circles */}
-      <div style={{ position: 'absolute', top: '10%', right: '8%', width: 320, height: 320, borderRadius: '50%', border: '1px solid rgba(255,200,100,.2)', pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', top: '15%', right: '12%', width: 220, height: 220, borderRadius: '50%', border: '1px solid rgba(255,200,100,.15)', pointerEvents: 'none' }} />
-
-      <div style={{ position: 'relative', zIndex: 1, padding: '120px 6vw 80px', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-        {/* Badge */}
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(200,118,58,.25)', border: '1px solid rgba(232,164,74,.4)', borderRadius: 30, padding: '6px 16px', marginBottom: 24, backdropFilter: 'blur(8px)' }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#f5c842', boxShadow: '0 0 8px #f5c842' }} />
-          <span style={{ fontSize: 11, color: '#ffd9a0', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase' }}>Fatehganj, Vadodara</span>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
         </div>
         <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(36px,6vw,76px)',fontWeight:900,color:'#fff',lineHeight:1.08,marginBottom:20,maxWidth:700}}>
           Your Home<br/><span style={{background:'linear-gradient(90deg,#f5c842,#e8a44a)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Away from Home</span>
@@ -333,7 +304,6 @@ function Hero() {
             <div key={lab}><div style={{fontSize:26,fontWeight:900,color:'#f5c842',fontFamily:"'Playfair Display',serif"}}>{val}</div><div style={{fontSize:11,color:'rgba(255,255,255,.6)',letterSpacing:'.05em',marginTop:2}}>{lab}</div></div>
           ))}
         </div>
-<<<<<<< HEAD
         <div style={{display:'flex',gap:14,flexWrap:'wrap'}}>
           <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',color:'#2d1a0a',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',boxShadow:'0 8px 30px rgba(200,118,58,.5)',display:'flex',alignItems:'center',gap:8,transition:'transform .2s'}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
@@ -342,22 +312,6 @@ function Hero() {
             style={{background:'rgba(255,255,255,.1)',border:'1.5px solid rgba(255,255,255,.35)',color:'#fff',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:700,textDecoration:'none',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',gap:8,transition:'background .2s'}}
             onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
             onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>💬 WhatsApp Us</a>
-=======
-
-        {/* CTAs */}
-        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-          <a href="tel:8857009635" style={{ background: 'linear-gradient(135deg,#c8763a,#f5c842)', color: '#2d1a0a', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 30px rgba(200,118,58,.5)', display: 'flex', alignItems: 'center', gap: 8, transition: 'transform .2s' }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-            📞 Call: 8857009635
-          </a>
-          <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
-            style={{ background: 'rgba(255,255,255,.1)', border: '1.5px solid rgba(255,255,255,.35)', color: '#fff', padding: '14px 32px', borderRadius: 50, fontSize: 15, fontWeight: 700, textDecoration: 'none', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', gap: 8, transition: 'background .2s' }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,.18)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,.1)'}>
-            💬 WhatsApp Us
-          </a>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
         </div>
       </div>
       <div style={{position:'absolute',bottom:32,left:'50%',transform:'translateX(-50%)',display:'flex',flexDirection:'column',alignItems:'center',gap:6}}>
@@ -452,12 +406,6 @@ function Rooms({siteData}){
                       Book This Room →
                     </a>
                   </div>
-<<<<<<< HEAD
-=======
-                  <a href="tel:8857009635" style={{ display: 'block', textAlign: 'center', background: active === i ? 'linear-gradient(135deg,#c8763a,#f5c842)' : '#fdf0e0', color: active === i ? '#fff' : '#c8763a', padding: '12px', borderRadius: 14, fontSize: 13, fontWeight: 700, textDecoration: 'none', transition: 'all .3s', border: '1.5px solid #e8c090' }}>
-                    Book This Room →
-                  </a>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
                 </div>
               </FadeIn>
             );
@@ -645,7 +593,6 @@ function Contact(){
           <FadeIn>
             <div>
               {[
-<<<<<<< HEAD
                 {icon:'📍',title:'Location',val:'Fatehganj, Bareilly',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
                 {icon:'📞',title:'Call Us',val:'9405334300 / 8857009635',link:'tel:9405334300',linkText:'Call Now →'},
                 {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
@@ -653,15 +600,6 @@ function Contact(){
               ].map(item=>(
                 <div key={item.title} style={{display:'flex',gap:18,marginBottom:28}}>
                   <div style={{width:50,height:50,borderRadius:14,background:'rgba(200,118,58,.2)',border:'1px solid rgba(200,118,58,.3)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0}}>{item.icon}</div>
-=======
-                { icon: '📍', title: 'Location', val: 'Fatehganj, Vadodara', link: 'https://maps.app.goo.gl/fNBMP77YgN85ZTVb6', linkText: 'Open in Google Maps →' },
-                { icon: '📞', title: 'Call Us', val: '9405334300 / 8857009635', link: 'tel:8857009635', linkText: 'Call Now →' },
-                { icon: '💬', title: 'WhatsApp', val: 'Chat with us for quick reply', link: 'https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms.', linkText: 'Open WhatsApp →' },
-                { icon: '⏰', title: 'Visit Timing', val: '9:00 AM – 8:00 PM, All days', link: null },
-              ].map(item => (
-                <div key={item.title} style={{ display: 'flex', gap: 18, marginBottom: 32 }}>
-                  <div style={{ width: 50, height: 50, borderRadius: 14, background: 'rgba(200,118,58,.2)', border: '1px solid rgba(200,118,58,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>{item.icon}</div>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
                   <div>
                     <div style={{fontSize:11,color:'rgba(255,255,255,.5)',fontWeight:600,letterSpacing:'.06em',textTransform:'uppercase',marginBottom:4}}>{item.title}</div>
                     <div style={{color:'#fff',fontWeight:600,fontSize:15,marginBottom:4}}>{item.val}</div>
@@ -677,18 +615,8 @@ function Contact(){
             </div>
           </FadeIn>
           <FadeIn delay={150}>
-<<<<<<< HEAD
             <div style={{borderRadius:24,overflow:'hidden',boxShadow:'0 20px 60px rgba(0,0,0,.5)',border:'1px solid rgba(255,255,255,.08)'}}>
               <iframe src="https://maps.google.com/maps?q=Fatehganj,Bareilly,UP&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
-=======
-            {/* Map embed */}
-            <div style={{ borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,.5)', border: '1px solid rgba(255,255,255,.08)' }}>
-              <iframe
-                src="https://maps.google.com/maps?q=Fatehganj,Vadodara,UP&output=embed"
-                width="100%" height="360" style={{ border: 0, display: 'block' }}
-                allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
-                title="Chhatrapati PG Location" />
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
             </div>
             <a href="https://maps.app.goo.gl/DZNesjYqhwrV4uEg9" target="_blank" rel="noreferrer"
               style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginTop:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.12)',borderRadius:14,padding:'12px',color:'#fff',textDecoration:'none',fontSize:13,fontWeight:600,transition:'background .2s'}}
@@ -710,21 +638,12 @@ function CTABanner(){
       <div style={{position:'absolute',top:-60,right:-60,width:250,height:250,borderRadius:'50%',background:'rgba(255,255,255,.1)',pointerEvents:'none'}}/>
       <div style={{maxWidth:700,margin:'0 auto',textAlign:'center',position:'relative',zIndex:1}}>
         <FadeIn>
-<<<<<<< HEAD
           <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(24px,4vw,42px)',fontWeight:900,color:'#2d1a0a',marginBottom:14}}>Ready to Move In?</h2>
           <p style={{fontSize:15,color:'rgba(45,26,10,.75)',marginBottom:32,lineHeight:1.7}}>Rooms fill up fast! Call us now or WhatsApp and we'll respond within minutes.</p>
           <div style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap'}}>
             <a href="tel:9405334300" style={{background:'#2d1a0a',color:'#f5c842',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>📞 9405334300</a>
             <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
               style={{background:'#25d366',color:'#fff',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>💬 WhatsApp</a>
-=======
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(24px,4vw,42px)', fontWeight: 900, color: '#2d1a0a', marginBottom: 16 }}>Ready to Move In?</h2>
-          <p style={{ fontSize: 16, color: 'rgba(45,26,10,.75)', marginBottom: 36, lineHeight: 1.7 }}>Rooms fill up fast! Call us now or drop a WhatsApp message and we'll get back to you within minutes.</p>
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="tel:8857009635" style={{ background: '#2d1a0a', color: '#f5c842', padding: '15px 36px', borderRadius: 50, fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 30px rgba(45,26,10,.3)', display: 'flex', alignItems: 'center', gap: 8 }}>📞 9405334300</a>
-            <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
-              style={{ background: '#25d366', color: '#fff', padding: '15px 36px', borderRadius: 50, fontSize: 15, fontWeight: 800, textDecoration: 'none', boxShadow: '0 8px 30px rgba(37,211,102,.35)', display: 'flex', alignItems: 'center', gap: 8 }}>💬 WhatsApp</a>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
           </div>
         </FadeIn>
       </div>
@@ -743,11 +662,7 @@ function Footer(){
               <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🏠</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700,color:'#fff'}}>Chhatrapati PG</div>
             </div>
-<<<<<<< HEAD
             <p style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>Premium coliving for males & females in Fatehganj, Bareilly. PG like home. ✌️</p>
-=======
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,.45)', lineHeight: 1.8 }}>Premium coliving spaces for males & females in Fatehganj, Vadodara. PG like home. ✌️</p>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
           </div>
           <div>
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Quick Links</div>
@@ -758,7 +673,6 @@ function Footer(){
             ))}
           </div>
           <div>
-<<<<<<< HEAD
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Contact</div>
             <div style={{fontSize:13,color:'rgba(255,255,255,.6)',lineHeight:2.1}}>
               <div>📍 Fatehganj, Bareilly</div><div>📞 9405334300</div><div>📞 8857009635</div>
@@ -770,21 +684,6 @@ function Footer(){
               <a href="tel:9405334300" style={{width:36,height:36,background:'#c8763a',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
                 onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
                 onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞</a>
-=======
-            <div style={{ fontSize: 11, color: '#f5c842', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 16 }}>Contact</div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,.6)', lineHeight: 2 }}>
-              <div>📍 Fatehganj, Vadodara</div>
-              <div>📞 9405334300</div>
-              <div>📞 8857009635</div>
-            </div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 16 }}>
-              <a href="https://wa.me/918857009635" target="_blank" rel="noreferrer" style={{ width: 36, height: 36, background: '#25d366', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, textDecoration: 'none', transition: 'transform .2s' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>💬</a>
-              <a href="tel:8857009635" style={{ width: 36, height: 36, background: '#c8763a', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, textDecoration: 'none', transition: 'transform .2s' }}
-                onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>📞</a>
->>>>>>> d722d620c68ff1f2f99d2cb45cab662e17982901
             </div>
           </div>
         </div>
