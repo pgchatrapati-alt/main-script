@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import React, { useState } from "react";
 
 // 🔥 BOT DATA
 const BOT_ANSWERS = [
@@ -170,6 +169,56 @@ function App() {
 }
 
 export default App;
+
+function Chatbot(){
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+
+  const getReply = (msg) => {
+    msg = msg.toLowerCase();
+
+    if(msg.includes("rent")) return "Rent ₹4,500 se start 📞 9405334300";
+    if(msg.includes("food")) return "Food ₹3,000/month 😋";
+    if(msg.includes("wifi")) return "WiFi FREE hai 📶";
+    if(msg.includes("contact")) return "📞 9405334300 / 8857009635";
+
+    return "Samajh nahi aaya 😅 Call kare: 9405334300";
+  };
+
+  const send = () => {
+    if(!input.trim()) return;
+
+    const reply = getReply(input);
+
+    setMessages([
+      ...messages,
+      {sender:"user",text:input},
+      {sender:"bot",text:reply}
+    ]);
+
+    setInput("");
+  };
+
+  return (
+    <div style={{
+      position:"fixed",
+      bottom:"20px",
+      right:"20px",
+      width:"300px",
+      background:"#fff",
+      padding:"10px",
+      borderRadius:"10px",
+      zIndex:9999
+    }}>
+      {messages.map((m,i)=>(
+        <p key={i}><b>{m.sender}:</b> {m.text}</p>
+      ))}
+
+      <input value={input} onChange={(e)=>setInput(e.target.value)} />
+      <button onClick={send}>Send</button>
+    </div>
+  );
+}
 
 /* ── Unsplash fallback images ── */
 const DEFAULT_IMGS = {
@@ -1052,50 +1101,4 @@ function FloatingWA(){
       onMouseEnter={e=>e.currentTarget.style.transform='scale(1.12)'}
       onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>💬</a>
   );
-}
-
-/* ── App root ── */
-export default function App(){
-  const[siteData,setSiteData]=useState(()=>getLS('siteData',{roomPhotos:[],foodPhotos:[],galleryPhotos:[],hero:''}));
-  const[showAdmin,setShowAdmin]=useState(false);
-
-  useEffect(()=>{
-    const link=document.createElement('link');link.rel='stylesheet';
-    link.href='https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap';
-    document.head.appendChild(link);
-    const style=document.createElement('style');
-    style.textContent=`
-      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-      html{scroll-behavior:smooth;}
-      body{font-family:'DM Sans',sans-serif;background:#fdf8f2;overflow-x:hidden;}
-      ::-webkit-scrollbar{width:5px;}
-      ::-webkit-scrollbar-track{background:#2d1a0a;}
-      ::-webkit-scrollbar-thumb{background:#c8763a;border-radius:4px;}
-      @keyframes wabounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-      @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-      @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-      @media(max-width:768px){
-        nav>div>div:last-child>a:not(:last-child){display:none!important;}
-        section>div{grid-template-columns:1fr!important;}
-      }
-    `;
-    document.head.appendChild(style);
-    return()=>{document.head.removeChild(link);document.head.removeChild(style);};
-  },[]);
-
-  return(<>
-    <Navbar onAdminClick={()=>setShowAdmin(true)}/>
-    <Hero heroImg={siteData.hero}/>
-    <Rooms siteData={siteData}/>
-    <Food siteData={siteData}/>
-    <Gallery siteData={siteData}/>
-    <Amenities/>
-    <Testimonials/>
-    <CTABanner/>
-    <Contact/>
-    <Footer/>
-    <FloatingWA/>
-    <Chatbot/>
-    {showAdmin&&<AdminPanel siteData={siteData} setSiteData={setSiteData} onClose={()=>setShowAdmin(false)}/>}
-  </>);
 }
