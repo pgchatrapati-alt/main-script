@@ -152,98 +152,275 @@ function PhotoManager({section,photos,onAdd,onRemove}){
   );
 }
 
-/* ── Chatbot ── */
-const BOT_ANSWERS = [
-  {q:['rent','price','kitna','cost','fees','charge','monthly'],a:`Hamare PG mein rent ₹4,500 se shuru hota hai:\n• Triple Sharing: ₹4,500/person\n• Double Sharing: ₹6,500/person\n• Single Room: ₹9,500\n\nFood include nahi hai by default. Food ke saath ₹3,000 extra. Light bill alag hoga.`},
-  {q:['food','khana','breakfast','lunch','dinner','meal','eat'],a:`Haan! Hamare yahan ghar jaisa fresh khana milta hai:\n• Breakfast\n• Lunch\n• Dinner\n• Morning/Evening Tea & Milk\n\nFood plan sirf ₹3,000/month extra. 😊`},
-  {q:['wifi','internet','net','speed'],a:'High-speed WiFi included hai rent mein! Bilkul free, no extra charge. 📶'},
-  {q:['ac','air condition','cooling'],a:'Sab rooms mein AC hai! Fully air-conditioned. ❄️'},
-  {q:['security','safe','cctv','camera'],a:'24/7 CCTV surveillance hai. Girls aur boys dono ke liye bilkul safe PG hai. 🔒'},
-  {q:['location','address','kaha','where','map','fatehganj'],a:'Prime location: Fatehganj, Vadodara! 📍\n\nMarket, ATM, Hospital, Bank, Auto Stand, Bus Stand — sab walking distance mein.\n\nGoogle Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9'},
-  {q:['contact','call','phone','number','whatsapp'],a:'Hume contact karo:\n📞 8857009635\n📞 8857009635\n💬 WhatsApp bhi kar sakte ho!'},
-  {q:['girl','female','ladies','women'],a:'Haan! Hamare PG mein girls ke liye alag section hai. 100% safe & secure. 👩\n\nFull CCTV, safe environment, and strict entry policy.'},
-  {q:['boy','male','men','gents'],a:'Haan! Boys ke liye bhi rooms available hain. 👦\n\nFully furnished, AC, WiFi — sab included!'},
-  {q:['water','geyser','hot'],a:'24/7 fresh water supply + RO filtered drinking water. Har washroom mein geyser attached hai. 💧🚿'},
-  {q:['furniture','furnished','bed','mattress','almirah','wardrobe'],a:'Fully furnished rooms! 🛏️\n• Bed + Mattress + Pillow\n• Wardrobe (personal)\n• Personal Locker\n• Bed sheets + pillow covers'},
-  {q:['washing','laundry','kapde','machine'],a:'Washing machine connection available hai. 🫧'},
-  {q:['booking','book','reserve','available'],a:'Room book karne ke liye call ya WhatsApp karo:\n📞 8857009635\n\nPehle aao, pehle pao! Rooms jaldi bhar jaate hain. 😊'},
-  {q:['deposit','advance','security'],a:'Security deposit ki details ke liye please call karein:\n📞 8857009635'},
-  {q:['kitchen','cooking','utensil','gas','lpg'],a:'Fully loaded kitchen available hai! 🍳\nSaare basic utensils + LPG supply included.'},
-  {q:['light','electricity','bill'],a:'Light bill (electricity) rent mein included nahi hai. Actual usage ke hisaab se alag charge hoga. ⚡'},
-  {q:['occupancy','sharing','single','double','triple'],a:'Teen tarah ke rooms available hain:\n• Triple Sharing — ₹4,500\n• Double Sharing — ₹6,500\n• Single Room — ₹9,500'},
-  {q:['hi','hello','hey','namaste','helo'],a:'Namaste! 🙏 Main Chhatrapati PG ka assistant hoon.\n\nAap kya jaanna chahte ho? Rent, Food, Rooms, Location — kuch bhi pucho!'},
-  {q:['thanks','thank','shukriya','dhanyawad'],a:'Khushi hui aapki help karke! 😊\n\nKoi aur sawaal ho toh zaroor pucho. Room book karne ke liye call karein: 📞 8857009635'},
+/* ── Chatbot (AI-powered with Claude API + smart fallback) ── */
+
+const PG_SYSTEM_PROMPT = `You are a friendly, smart, and sales-focused chatbot assistant for "Chhatrapati PG" — a premium paying guest accommodation.
+
+Your personality: Warm, helpful, slightly persuasive, conversational. Use Hinglish (mix of Hindi + English naturally). Keep replies SHORT — max 3-4 lines. Add urgency sometimes ("rooms fill fast!"). Always end with a call-to-action if relevant.
+
+PG Information (use ONLY this, do not make up anything):
+- Name: Chhatrapati PG | Tagline: "PG Like Home"
+- Location: Fatehganj (Prime Location), Bareilly
+- Google Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9
+- Contact: 📞 9405334300 / 8857009635 | WhatsApp available
+- Rooms: Double Sharing & Triple Sharing
+- Rent: ₹4,500 – ₹10,000/month (depends on room type)
+- Available for: Males & Females (separate sections)
+- Facilities included: Fully Furnished Rooms, 2-time Food (Breakfast + Lunch/Dinner), Tea/Milk, AC, WiFi, Geyser in every washroom, Refrigerator, 24-hour Water Supply, Washing Machine Connection, Bed+Mattress+Pillow, Wardrobe & Personal Locker, Bedsheets & Pillow Covers, RO Drinking Water, Fully Loaded Kitchen with LPG, CCTV Surveillance, Ventilated Rooms
+- Location benefits: Close to Main Road, Near Market/ATM/Bank/Hospital/Auto Stand/Bus Stand
+- IMPORTANT: Electricity bill is NOT included in rent
+- If asked something not in this info, say: "Iske liye please call ya DM karein 📞 9405334300"
+
+Rules:
+1. Always reply in Hinglish (natural mix of Hindi + English)
+2. Keep replies to 2-4 lines max — short and punchy
+3. Be warm, friendly, never robotic
+4. If someone shows interest → push them to call or WhatsApp
+5. Mention urgency occasionally ("limited rooms!", "jaldi book karo!")
+6. Never give wrong information — stick to facts above
+7. For unknown info → redirect to phone number`;
+
+// Smart local fallback — covers common queries instantly without API
+const LOCAL_KB = [
+  {k:['hi','hello','hey','namaste','helo','sup','hii'],r:'Namaste! 🙏 Main Chhatrapati PG ka assistant hoon — *PG Like Home!*\n\nKya jaanna chahte ho? Rent, food, rooms, location — sab bataunga! 😊'},
+  {k:['rent','price','kitna','cost','fees','charge','monthly','paisa','rate'],r:'Hamare PG mein rent ₹4,500 se start hota hai! 🏠\n• Double/Triple sharing options available\n• Rent: ₹4,500 – ₹10,000/month\n\nLight bill alag hoga. Call karein details ke liye: 📞 9405334300'},
+  {k:['food','khana','breakfast','lunch','dinner','meal','eat','bhojan'],r:'Haan! Ghar jaisa fresh khana milta hai 😋\n• Breakfast, Lunch/Dinner (2-time food)\n• Morning/Evening Tea & Milk bhi!\n\nFood already rent mein include hai. 🍱'},
+  {k:['wifi','internet','net','speed','broadband'],r:'High-speed WiFi FREE hai — rent mein included! 📶\nStudents aur working professionals dono ke liye perfect. 😊'},
+  {k:['ac','air condition','cooling','air-condition'],r:'Bilkul! Sab rooms mein AC hai ❄️\nFully air-conditioned — garmi ki tension nahi!'},
+  {k:['security','safe','cctv','camera','safety','secure'],r:'24/7 CCTV surveillance hai 🔒\nGirls aur boys dono ke liye 100% safe environment. Strict entry policy bhi hai.'},
+  {k:['location','address','kaha','where','map','fatehganj','bareilly','reach'],r:'Prime location: Fatehganj, Bareilly! 📍\nMarket, ATM, Hospital, Bank, Bus Stand — sab walking distance mein.\n\n📍 Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9'},
+  {k:['contact','call','phone','number','whatsapp','reach','connect'],r:'Hume contact karo:\n📞 9405334300\n📞 8857009635\n💬 WhatsApp pe bhi respond karte hain turant!'},
+  {k:['girl','female','ladies','women','lady'],r:'Haan! Girls ke liye alag secure section hai 👩\nFull CCTV, safe environment, strict entry policy.\n\nBilkul safe aur comfortable. 📞 9405334300'},
+  {k:['boy','male','men','gents','man'],r:'Haan! Boys ke liye bhi rooms available hain 👦\nFully furnished + AC + WiFi — sab included!\n\nJaldi book karo, rooms limited hain! 📞 9405334300'},
+  {k:['water','geyser','hot water','paani'],r:'24/7 fresh water supply + RO filtered drinking water 💧\nHar washroom mein geyser attached hai. Hot water ki koi tension nahi! 🚿'},
+  {k:['furniture','furnished','bed','mattress','wardrobe','almirah','locker'],r:'Fully Furnished rooms! 🛏️\n• Bed + Mattress + Pillow\n• Wardrobe + Personal Locker\n• Bedsheets & Pillow Covers bhi!'},
+  {k:['washing','laundry','kapde','machine','washer'],r:'Washing Machine connection available hai 🫧\nKapde dhone ki koi problem nahi!'},
+  {k:['book','booking','reserve','available','vacancy','room mil'],r:'Room book karne ke liye abhi call karein! 📞 9405334300\n\nRooms jaldi bhar jaate hain — pehle aao pehle pao! Limited seats hain. 🏃'},
+  {k:['deposit','advance','security deposit'],r:'Security deposit details ke liye call karein:\n📞 9405334300 / 8857009635\nWoh aapko poori details denge. 😊'},
+  {k:['kitchen','cooking','utensil','gas','lpg','cook'],r:'Fully loaded kitchen available hai! 🍳\nSaare utensils + LPG gas supply included. Ghar jaisa feel!'},
+  {k:['electricity','light bill','bijli','current','electric'],r:'Light bill (electricity) rent mein include nahi hai ⚡\nActual usage ke hisaab se alag charge hoga. Baaki sab included!'},
+  {k:['sharing','single','double','triple','occupancy','roommate'],r:'Hamare paas double aur triple sharing rooms available hain!\n• Rent: ₹4,500 – ₹10,000/month\n\nKaun sa option chahiye? 📞 9405334300'},
+  {k:['thanks','thank','shukriya','dhanyawad','thankyou'],r:'Khushi hui aapki madad karke! 😊\nKoi bhi sawaal ho toh pucho. Room book karne ke liye: 📞 9405334300'},
+  {k:['refrigerator','fridge'],r:'Haan! Shared refrigerator access hai 🧊\nFully furnished rooms mein sab kuch hai!'},
+  {k:['visit','dekh','see','tour','aana','come'],r:'Zaroor aayein! 🏠 Pehle call karein taaki room ready rakhen:\n📞 9405334300\n\nFatehganj aana easy hai — market ke paas hi hai!'},
 ];
 
-function getAnswer(msg){
-  const m=msg.toLowerCase();
-  for(const b of BOT_ANSWERS){
-    if(b.q.some(k=>m.includes(k)))return b.a;
-  }
-  return 'Maafi chahta hoon, yeh sawaal samajh nahi aaya. 😅\n\nKripya call karein: 📞 8857009635\nYa WhatsApp: 8857009635\n\nAap puch sakte ho: rent, food, rooms, location, facilities, etc.';
+function localReply(msg){
+  const m = msg.toLowerCase();
+  for(const b of LOCAL_KB){ if(b.k.some(k=>m.includes(k))) return b.r; }
+  return null;
 }
 
 function Chatbot(){
   const[open,setOpen]=useState(false);
-  const[msgs,setMsgs]=useState([{from:'bot',text:'Namaste! 🙏 Main Chhatrapati PG ka assistant hoon.\n\nRent, food, rooms, location — kuch bhi pucho! Hindi ya English dono chalega. 😊'}]);
+  const[msgs,setMsgs]=useState([
+    {from:'bot',text:'Namaste! 🙏 Main Chhatrapati PG ka smart assistant hoon.\n\n*PG Like Home* — rent, food, rooms, location — kuch bhi pucho! Hindi ya English dono chalega. 😊',ts:Date.now()}
+  ]);
   const[input,setInput]=useState('');
   const[typing,setTyping]=useState(false);
+  const[showQuick,setShowQuick]=useState(true);
+  const[aiError,setAiError]=useState(false);
   const endRef=useRef(null);
-  useEffect(()=>{if(endRef.current)endRef.current.scrollIntoView({behavior:'smooth'});},[msgs,open]);
+  const inputRef=useRef(null);
 
-  function send(){
-    const t=input.trim();if(!t)return;
-    setMsgs(p=>[...p,{from:'user',text:t}]);setInput('');setTyping(true);
-    setTimeout(()=>{setMsgs(p=>[...p,{from:'bot',text:getAnswer(t)}]);setTyping(false);},800+Math.random()*600);
+  useEffect(()=>{if(endRef.current)endRef.current.scrollIntoView({behavior:'smooth'});},[msgs,typing,open]);
+  useEffect(()=>{if(open&&inputRef.current)setTimeout(()=>inputRef.current?.focus(),300);},[open]);
+
+  const QUICK_BTNS=[
+    {label:'💰 Rent kitna hai?',msg:'Rent kitna hai?'},
+    {label:'🍽️ Food included?',msg:'Food included hai kya?'},
+    {label:'📍 Location kaha?',msg:'Location kahan hai?'},
+    {label:'🛏️ Rooms available?',msg:'Rooms available hain?'},
+    {label:'👩 Girls allowed?',msg:'Girls ke liye rooms available hain?'},
+    {label:'❄️ AC hai?',msg:'AC hai rooms mein?'},
+  ];
+
+  async function askAI(userMsg, history){
+    // Build conversation history for API (last 8 messages for context)
+    const apiMsgs = history.slice(-8).map(m=>({
+      role: m.from==='user'?'user':'assistant',
+      content: m.text
+    }));
+    apiMsgs.push({role:'user',content:userMsg});
+
+    const response = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:200,
+        system: PG_SYSTEM_PROMPT,
+        messages: apiMsgs,
+      })
+    });
+    if(!response.ok) throw new Error('API error '+response.status);
+    const data = await response.json();
+    return data.content?.[0]?.text || null;
   }
-  const QUICK=['Rent kitna hai?','Food included hai?','Location kaha hai?','Rooms available?','Call karna hai'];
+
+  async function send(msgOverride){
+    const t=(msgOverride||input).trim();
+    if(!t||typing)return;
+    setInput('');setTyping(true);setShowQuick(false);setAiError(false);
+
+    const newMsgs=[...msgs,{from:'user',text:t,ts:Date.now()}];
+    setMsgs(newMsgs);
+
+    // 1. Try local instant reply first (fast + free)
+    const localAns = localReply(t);
+
+    // Small human-like delay
+    await new Promise(r=>setTimeout(r,600+Math.random()*500));
+
+    if(localAns){
+      // Local answer available — use it instantly
+      setMsgs(p=>[...p,{from:'bot',text:localAns,ts:Date.now(),source:'local'}]);
+      setTyping(false);
+      // Background: also try AI for better response, replace if better
+      try{
+        const aiAns = await askAI(t, newMsgs);
+        if(aiAns && aiAns.length > 20){
+          setMsgs(p=>{
+            const arr=[...p];
+            // Replace the last bot message with AI response (smoother UX)
+            const lastBotIdx=[...arr].reverse().findIndex(m=>m.source==='local');
+            if(lastBotIdx>=0){
+              const realIdx=arr.length-1-lastBotIdx;
+              arr[realIdx]={...arr[realIdx],text:aiAns,source:'ai'};
+            }
+            return arr;
+          });
+        }
+      }catch(e){ /* silently keep local answer */ }
+    } else {
+      // No local answer — call AI directly
+      try{
+        const aiAns = await askAI(t, newMsgs);
+        setMsgs(p=>[...p,{from:'bot',text:aiAns||'Iske liye please call karein 📞 9405334300',ts:Date.now(),source:'ai'}]);
+      }catch(e){
+        setAiError(true);
+        setMsgs(p=>[...p,{from:'bot',text:'Iske liye please call ya WhatsApp karein:\n📞 9405334300 / 8857009635\n\nHum jaldi reply karenge! 😊',ts:Date.now(),source:'fallback'}]);
+      }
+      setTyping(false);
+    }
+  }
+
+  // Render message text with basic markdown-like formatting
+  function renderText(text){
+    return text.split('\n').map((line,i)=>{
+      // Bold: *text*
+      const parts=line.split(/(\*[^*]+\*)/g).map((p,j)=>
+        p.startsWith('*')&&p.endsWith('*')
+          ?<strong key={j} style={{fontWeight:700}}>{p.slice(1,-1)}</strong>
+          :p
+      );
+      return<div key={i} style={{minHeight:line?undefined:8}}>{parts}</div>;
+    });
+  }
 
   return(<>
-    {/* Floating button */}
-    <button onClick={()=>setOpen(o=>!o)} style={{position:'fixed',bottom:100,right:24,zIndex:997,width:54,height:54,borderRadius:'50%',background:'linear-gradient(135deg,#c8763a,#f5c842)',border:'none',cursor:'pointer',fontSize:24,boxShadow:'0 6px 24px rgba(200,118,58,.5)',display:'flex',alignItems:'center',justifyContent:'center',transition:'transform .25s'}}
+    {/* Floating bot button */}
+    <button onClick={()=>setOpen(o=>!o)}
+      style={{position:'fixed',bottom:100,right:24,zIndex:997,width:56,height:56,borderRadius:'50%',background:'linear-gradient(135deg,#c8763a,#f5c842)',border:'none',cursor:'pointer',fontSize:26,boxShadow:'0 6px 28px rgba(200,118,58,.55)',display:'flex',alignItems:'center',justifyContent:'center',transition:'transform .25s'}}
       onMouseEnter={e=>e.currentTarget.style.transform='scale(1.1)'}
       onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>
       {open?'✕':'🤖'}
-      {!open&&<div style={{position:'absolute',top:-2,right:-2,width:16,height:16,borderRadius:'50%',background:'#ef4444',border:'2px solid #fff',fontSize:9,color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700}}>!</div>}
+      {!open&&<div style={{position:'absolute',top:-3,right:-3,width:18,height:18,borderRadius:'50%',background:'#ef4444',border:'2.5px solid #fdf8f2',fontSize:9,color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,animation:'pulse 2s infinite'}}>AI</div>}
     </button>
 
     {open&&(
-      <div style={{position:'fixed',bottom:168,right:16,width:340,maxHeight:480,background:'#1a0e05',border:'1px solid #5a3010',borderRadius:20,zIndex:996,display:'flex',flexDirection:'column',boxShadow:'0 20px 60px rgba(0,0,0,.6)',overflow:'hidden',animation:'fadeUp .3s ease'}}>
+      <div style={{position:'fixed',bottom:170,right:16,width:346,maxHeight:520,background:'#120a02',border:'1px solid #5a3010',borderRadius:22,zIndex:996,display:'flex',flexDirection:'column',boxShadow:'0 24px 64px rgba(0,0,0,.7)',overflow:'hidden',animation:'fadeUp .3s cubic-bezier(.22,1,.36,1)'}}>
+
         {/* Header */}
-        <div style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',padding:'12px 16px',display:'flex',alignItems:'center',gap:10}}>
-          <div style={{width:36,height:36,borderRadius:'50%',background:'rgba(255,255,255,.25)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🏠</div>
-          <div><div style={{fontWeight:700,fontSize:14,color:'#2d1a0a'}}>Chhatrapati PG</div><div style={{fontSize:10,color:'rgba(45,26,10,.7)'}}>Usually replies instantly</div></div>
+        <div style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',padding:'13px 16px',display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
+          <div style={{position:'relative'}}>
+            <div style={{width:38,height:38,borderRadius:'50%',background:'rgba(255,255,255,.25)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,border:'2px solid rgba(255,255,255,.4)'}}>🏠</div>
+            <div style={{position:'absolute',bottom:0,right:0,width:11,height:11,borderRadius:'50%',background:'#22c55e',border:'2px solid #f5c842'}}/>
+          </div>
+          <div style={{flex:1}}>
+            <div style={{fontWeight:800,fontSize:14,color:'#2d1a0a',lineHeight:1.2}}>Chhatrapati PG</div>
+            <div style={{fontSize:10,color:'rgba(45,26,10,.65)',display:'flex',alignItems:'center',gap:4}}>
+              <span style={{width:6,height:6,borderRadius:'50%',background:'#16a34a',display:'inline-block'}}/>
+              AI-powered • Usually replies instantly
+            </div>
+          </div>
+          <a href="https://wa.me/919405334300" target="_blank" rel="noreferrer"
+            style={{background:'#25d366',borderRadius:8,padding:'5px 9px',fontSize:16,textDecoration:'none',display:'flex',alignItems:'center',transition:'transform .2s'}}
+            title="WhatsApp"
+            onMouseEnter={e=>e.currentTarget.style.transform='scale(1.1)'}
+            onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>💬</a>
         </div>
+
         {/* Messages */}
-        <div style={{flex:1,overflowY:'auto',padding:14,display:'flex',flexDirection:'column',gap:10}}>
+        <div style={{flex:1,overflowY:'auto',padding:'14px 12px',display:'flex',flexDirection:'column',gap:10}}>
           {msgs.map((m,i)=>(
-            <div key={i} style={{display:'flex',justifyContent:m.from==='user'?'flex-end':'flex-start'}}>
-              <div style={{maxWidth:'82%',background:m.from==='user'?'linear-gradient(135deg,#c8763a,#f5c842)':'#2d1a0a',color:m.from==='user'?'#2d1a0a':'#f5e6d0',padding:'9px 13px',borderRadius:m.from==='user'?'16px 16px 4px 16px':'16px 16px 16px 4px',fontSize:13,lineHeight:1.6,border:m.from==='bot'?'1px solid #3a1f05':'none',whiteSpace:'pre-line'}}>
-                {m.text}
+            <div key={i} style={{display:'flex',justifyContent:m.from==='user'?'flex-end':'flex-start',alignItems:'flex-end',gap:6}}>
+              {m.from==='bot'&&<div style={{width:26,height:26,borderRadius:'50%',background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,flexShrink:0,marginBottom:2}}>🏠</div>}
+              <div style={{maxWidth:'80%',background:m.from==='user'?'linear-gradient(135deg,#c8763a,#f5c842)':'#2a1608',color:m.from==='user'?'#2d1a0a':'#f5e6d0',padding:'10px 13px',borderRadius:m.from==='user'?'18px 18px 4px 18px':'18px 18px 18px 4px',fontSize:13,lineHeight:1.65,border:m.from==='bot'?'1px solid #3a1f05':'none'}}>
+                {m.from==='bot'?renderText(m.text):m.text}
+                {m.source==='ai'&&<div style={{fontSize:9,color:'rgba(245,230,208,.35)',marginTop:4,textAlign:'right'}}>✨ AI</div>}
               </div>
             </div>
           ))}
-          {typing&&<div style={{display:'flex',gap:4,padding:'10px 14px',background:'#2d1a0a',borderRadius:'16px 16px 16px 4px',width:56,border:'1px solid #3a1f05'}}>
-            {[0,1,2].map(i=><div key={i} style={{width:7,height:7,borderRadius:'50%',background:'#c8763a',animation:`pulse 1.2s ${i*.2}s infinite`}}/>)}
-          </div>}
+
+          {/* Typing indicator */}
+          {typing&&(
+            <div style={{display:'flex',alignItems:'flex-end',gap:6}}>
+              <div style={{width:26,height:26,borderRadius:'50%',background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,flexShrink:0}}>🏠</div>
+              <div style={{display:'flex',gap:5,padding:'12px 14px',background:'#2a1608',borderRadius:'18px 18px 18px 4px',border:'1px solid #3a1f05'}}>
+                {[0,1,2].map(i=><div key={i} style={{width:7,height:7,borderRadius:'50%',background:'#c8763a',animation:`pulse 1.4s ${i*.22}s ease-in-out infinite`}}/>)}
+              </div>
+            </div>
+          )}
+
+          {/* AI error notice */}
+          {aiError&&<div style={{textAlign:'center',fontSize:10,color:'#7a5020',padding:'4px 0'}}>⚡ Using offline mode</div>}
           <div ref={endRef}/>
         </div>
-        {/* Quick replies */}
-        <div style={{padding:'0 10px 8px',display:'flex',gap:6,overflowX:'auto'}}>
-          {QUICK.map(q=>(
-            <button key={q} onClick={()=>{setMsgs(p=>[...p,{from:'user',text:q}]);setTyping(true);setTimeout(()=>{setMsgs(p=>[...p,{from:'bot',text:getAnswer(q)}]);setTyping(false);},700+Math.random()*500);}}
-              style={{background:'#2d1a0a',border:'1px solid #5a3010',color:'#e8c090',padding:'5px 11px',borderRadius:20,cursor:'pointer',fontSize:11,whiteSpace:'nowrap',transition:'background .2s'}}
-              onMouseEnter={e=>e.currentTarget.style.background='#3d2a1a'}
-              onMouseLeave={e=>e.currentTarget.style.background='#2d1a0a'}>
-              {q}
-            </button>
-          ))}
+
+        {/* Quick reply buttons */}
+        {showQuick&&(
+          <div style={{padding:'6px 10px 2px',flexShrink:0}}>
+            <div style={{fontSize:10,color:'#7a5020',fontWeight:600,marginBottom:5,paddingLeft:2}}>✨ Quick Questions:</div>
+            <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
+              {QUICK_BTNS.map(q=>(
+                <button key={q.msg} onClick={()=>send(q.msg)}
+                  style={{background:'#2a1608',border:'1px solid #5a3010',color:'#e8c090',padding:'5px 10px',borderRadius:16,cursor:'pointer',fontSize:11,whiteSpace:'nowrap',transition:'all .15s',fontWeight:500}}
+                  onMouseEnter={e=>{e.currentTarget.style.background='#3d2010';e.currentTarget.style.borderColor='#c8763a';}}
+                  onMouseLeave={e=>{e.currentTarget.style.background='#2a1608';e.currentTarget.style.borderColor='#5a3010';}}>
+                  {q.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input area */}
+        <div style={{padding:'8px 12px 13px',borderTop:'1px solid #2a1608',display:'flex',gap:8,flexShrink:0,background:'#0d0703'}}>
+          <input ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
+            onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}}
+            onFocus={()=>setShowQuick(false)}
+            placeholder="Kuch bhi pucho — Hindi ya English…"
+            disabled={typing}
+            style={{flex:1,background:'#2a1608',border:'1px solid #5a3010',color:'#f5e6d0',padding:'10px 13px',borderRadius:12,fontSize:13,outline:'none',transition:'border-color .2s',opacity:typing?0.6:1}}
+            onMouseEnter={e=>e.currentTarget.style.borderColor='#c8763a'}
+            onMouseLeave={e=>e.currentTarget.style.borderColor='#5a3010'}
+          />
+          <button onClick={()=>send()} disabled={typing||!input.trim()}
+            style={{background:input.trim()&&!typing?'linear-gradient(135deg,#c8763a,#f5c842)':'#2a1608',border:`1px solid ${input.trim()&&!typing?'transparent':'#3a1f05'}`,color:input.trim()&&!typing?'#2d1a0a':'#5a3010',width:40,borderRadius:12,cursor:input.trim()&&!typing?'pointer':'not-allowed',fontSize:20,display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s',flexShrink:0}}>
+            {typing?'…':'↑'}
+          </button>
         </div>
-        {/* Input */}
-        <div style={{padding:'8px 12px 12px',borderTop:'1px solid #3a1f05',display:'flex',gap:8}}>
-          <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder="Kuch bhi pucho…"
-            style={{flex:1,background:'#2d1a0a',border:'1px solid #5a3010',color:'#f5e6d0',padding:'9px 12px',borderRadius:10,fontSize:13,outline:'none'}}/>
-          <button onClick={send} style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',border:'none',color:'#2d1a0a',width:38,borderRadius:10,cursor:'pointer',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700}}>↑</button>
+
+        {/* Bottom CTA strip */}
+        <div style={{background:'#0a0500',padding:'8px 12px',display:'flex',gap:8,justifyContent:'center',borderTop:'1px solid #1a0a02',flexShrink:0}}>
+          <a href="tel:9405334300" style={{flex:1,background:'#c8763a',color:'#fff',padding:'8px',borderRadius:10,fontSize:12,fontWeight:700,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,transition:'opacity .2s'}}
+            onMouseEnter={e=>e.currentTarget.style.opacity='.85'}
+            onMouseLeave={e=>e.currentTarget.style.opacity='1'}>📞 Call Now</a>
+          <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20Main%20room%20ke%20baare%20mein%20jaanna%20chahta%20hoon." target="_blank" rel="noreferrer"
+            style={{flex:1,background:'#25d366',color:'#fff',padding:'8px',borderRadius:10,fontSize:12,fontWeight:700,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,transition:'opacity .2s'}}
+            onMouseEnter={e=>e.currentTarget.style.opacity='.85'}
+            onMouseLeave={e=>e.currentTarget.style.opacity='1'}>💬 WhatsApp</a>
         </div>
       </div>
     )}
@@ -272,7 +449,7 @@ function Navbar({onAdminClick}){
               onMouseLeave={e=>e.target.style.color=scrolled?'#4a2c10':'#fff'}>{l}</a>
           ))}
           <button onClick={onAdminClick} style={{background:'rgba(200,118,58,.15)',border:'1px solid rgba(200,118,58,.3)',color:scrolled?'#c8763a':'#ffd9a0',padding:'6px 14px',borderRadius:20,fontSize:12,fontWeight:600,cursor:'pointer',transition:'all .2s'}}>⚙ Admin</button>
-          <a href="tel:8857009635" style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s'}}
+          <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s'}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'}
             onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call Now</a>
         </div>
@@ -291,7 +468,7 @@ function Hero({heroImg}){
       <div style={{position:'relative',zIndex:1,padding:'120px 6vw 80px',maxWidth:1200,margin:'0 auto',width:'100%'}}>
         <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(200,118,58,.25)',border:'1px solid rgba(232,164,74,.4)',borderRadius:30,padding:'6px 16px',marginBottom:24,backdropFilter:'blur(8px)'}}>
           <div style={{width:6,height:6,borderRadius:'50%',background:'#f5c842',boxShadow:'0 0 8px #f5c842'}}/>
-          <span style={{fontSize:11,color:'#ffd9a0',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase'}}>Fatehganj, Vadodara</span>
+          <span style={{fontSize:11,color:'#ffd9a0',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase'}}>Fatehganj, Bareilly</span>
         </div>
         <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(36px,6vw,76px)',fontWeight:900,color:'#fff',lineHeight:1.08,marginBottom:20,maxWidth:700}}>
           Your Home<br/><span style={{background:'linear-gradient(90deg,#f5c842,#e8a44a)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Away from Home</span>
@@ -305,10 +482,10 @@ function Hero({heroImg}){
           ))}
         </div>
         <div style={{display:'flex',gap:14,flexWrap:'wrap'}}>
-          <a href="tel:8857009635" style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',color:'#2d1a0a',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',boxShadow:'0 8px 30px rgba(200,118,58,.5)',display:'flex',alignItems:'center',gap:8,transition:'transform .2s'}}
+          <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',color:'#2d1a0a',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',boxShadow:'0 8px 30px rgba(200,118,58,.5)',display:'flex',alignItems:'center',gap:8,transition:'transform .2s'}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
-            onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call: 8857009635</a>
-          <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
+            onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call: 9405334300</a>
+          <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
             style={{background:'rgba(255,255,255,.1)',border:'1.5px solid rgba(255,255,255,.35)',color:'#fff',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:700,textDecoration:'none',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',gap:8,transition:'background .2s'}}
             onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
             onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>💬 WhatsApp Us</a>
@@ -330,8 +507,8 @@ function Rooms({siteData}){
 
   const ROOMS=[
     {type:'Triple Sharing',basePrice:4500,tag:'Most Popular',defaultImg:DEFAULT_IMGS.room1,features:['3 residents','Wardrobe each','AC + WiFi','Attached geyser']},
-    {type:'Double Sharing',basePrice:6000,tag:'Best Value',defaultImg:DEFAULT_IMGS.room2,features:['2 residents','Personal locker','AC + WiFi','Attached geyser']},
-    {type:'Single Room',basePrice:10000,tag:'Premium',defaultImg:DEFAULT_IMGS.room3,features:['Private space','Full wardrobe','AC + WiFi','Attached geyser']},
+    {type:'Double Sharing',basePrice:6500,tag:'Best Value',defaultImg:DEFAULT_IMGS.room2,features:['2 residents','Personal locker','AC + WiFi','Attached geyser']},
+    {type:'Single Room',basePrice:9500,tag:'Premium',defaultImg:DEFAULT_IMGS.room3,features:['Private space','Full wardrobe','AC + WiFi','Attached geyser']},
   ];
   const roomPhotos=siteData.roomPhotos||[];
 
@@ -402,7 +579,7 @@ function Rooms({siteData}){
                         <span style={{fontSize:13,color:'#c8763a',fontWeight:600}}>🍽️ Breakfast + Lunch + Dinner</span>
                       </div>}
                     </div>
-                    <a href="tel:8857009635" style={{display:'block',textAlign:'center',background:active===i?'linear-gradient(135deg,#c8763a,#f5c842)':'#fdf0e0',color:active===i?'#fff':'#c8763a',padding:'12px',borderRadius:14,fontSize:13,fontWeight:700,textDecoration:'none',transition:'all .3s',border:'1.5px solid #e8c090'}}>
+                    <a href="tel:9405334300" style={{display:'block',textAlign:'center',background:active===i?'linear-gradient(135deg,#c8763a,#f5c842)':'#fdf0e0',color:active===i?'#fff':'#c8763a',padding:'12px',borderRadius:14,fontSize:13,fontWeight:700,textDecoration:'none',transition:'all .3s',border:'1.5px solid #e8c090'}}>
                       Book This Room →
                     </a>
                   </div>
@@ -593,9 +770,9 @@ function Contact(){
           <FadeIn>
             <div>
               {[
-                {icon:'📍',title:'Location',val:'Fatehganj, Vadodara',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
-                {icon:'📞',title:'Call Us',val:'9405334300 / 8857009635',link:'tel:8857009635',linkText:'Call Now →'},
-                {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
+                {icon:'📍',title:'Location',val:'Fatehganj, Bareilly',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
+                {icon:'📞',title:'Call Us',val:'9405334300 / 8857009635',link:'tel:9405334300',linkText:'Call Now →'},
+                {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
                 {icon:'⏰',title:'Visit Timing',val:'9:00 AM – 8:00 PM, All days',link:null},
               ].map(item=>(
                 <div key={item.title} style={{display:'flex',gap:18,marginBottom:28}}>
@@ -616,9 +793,9 @@ function Contact(){
           </FadeIn>
           <FadeIn delay={150}>
             <div style={{borderRadius:24,overflow:'hidden',boxShadow:'0 20px 60px rgba(0,0,0,.5)',border:'1px solid rgba(255,255,255,.08)'}}>
-              <iframe src="https://maps.google.com/maps?q=Fatehganj,Vadodara,UP&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
+              <iframe src="https://maps.google.com/maps?q=Fatehganj,Bareilly,UP&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
             </div>
-            <a href="https://maps.app.goo.gl/gkLuNUEwq6tSDng86" target="_blank" rel="noreferrer"
+            <a href="https://maps.app.goo.gl/DZNesjYqhwrV4uEg9" target="_blank" rel="noreferrer"
               style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginTop:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.12)',borderRadius:14,padding:'12px',color:'#fff',textDecoration:'none',fontSize:13,fontWeight:600,transition:'background .2s'}}
               onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}
               onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.06)'}>
@@ -641,8 +818,8 @@ function CTABanner(){
           <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(24px,4vw,42px)',fontWeight:900,color:'#2d1a0a',marginBottom:14}}>Ready to Move In?</h2>
           <p style={{fontSize:15,color:'rgba(45,26,10,.75)',marginBottom:32,lineHeight:1.7}}>Rooms fill up fast! Call us now or WhatsApp and we'll respond within minutes.</p>
           <div style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap'}}>
-            <a href="tel:8857009635" style={{background:'#2d1a0a',color:'#f5c842',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>📞 8857009635</a>
-            <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
+            <a href="tel:9405334300" style={{background:'#2d1a0a',color:'#f5c842',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>📞 9405334300</a>
+            <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
               style={{background:'#25d366',color:'#fff',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>💬 WhatsApp</a>
           </div>
         </FadeIn>
@@ -662,7 +839,7 @@ function Footer(){
               <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🏠</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700,color:'#fff'}}>Chhatrapati PG</div>
             </div>
-            <p style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>Premium coliving for males & females in Fatehganj, Vadpdara. PG like home. ✌️</p>
+            <p style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>Premium coliving for males & females in Fatehganj, Bareilly. PG like home. ✌️</p>
           </div>
           <div>
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Quick Links</div>
@@ -675,20 +852,20 @@ function Footer(){
           <div>
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Contact</div>
             <div style={{fontSize:13,color:'rgba(255,255,255,.6)',lineHeight:2.1}}>
-              <div>📍 Fatehganj, Vadodara</div><div>📞 8857009635</div><div>📞 8857009635</div>
+              <div>📍 Fatehganj, Bareilly</div><div>📞 9405334300</div><div>📞 8857009635</div>
             </div>
             <div style={{display:'flex',gap:10,marginTop:14}}>
-              <a href="https://wa.me/918857009635" target="_blank" rel="noreferrer" style={{width:36,height:36,background:'#25d366',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
+              <a href="https://wa.me/919405334300" target="_blank" rel="noreferrer" style={{width:36,height:36,background:'#25d366',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
                 onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
                 onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>💬</a>
-              <a href="tel:8857009635" style={{width:36,height:36,background:'#c8763a',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
+              <a href="tel:9405334300" style={{width:36,height:36,background:'#c8763a',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
                 onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
                 onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞</a>
             </div>
           </div>
         </div>
         <div style={{borderTop:'1px solid rgba(255,255,255,.07)',paddingTop:20,display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:10}}>
-          <div style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>© 2026 Chhatrapati PG. All rights reserved.</div>
+          <div style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>© 2025 Chhatrapati PG. All rights reserved.</div>
           <div style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>Made with ❤️ for Fatehganj residents</div>
         </div>
       </div>
@@ -699,7 +876,7 @@ function Footer(){
 /* ── Floating WhatsApp ── */
 function FloatingWA(){
   return(
-    <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
+    <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
       style={{position:'fixed',bottom:28,right:24,zIndex:998,width:56,height:56,background:'#25d366',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,boxShadow:'0 6px 24px rgba(37,211,102,.5)',textDecoration:'none',animation:'wabounce 2.5s ease-in-out infinite',transition:'transform .25s'}}
       onMouseEnter={e=>e.currentTarget.style.transform='scale(1.12)'}
       onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>💬</a>
