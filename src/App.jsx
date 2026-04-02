@@ -330,8 +330,8 @@ function Rooms({siteData}){
 
   const ROOMS=[
     {type:'Triple Sharing',basePrice:4500,tag:'Most Popular',defaultImg:DEFAULT_IMGS.room1,features:['3 residents','Wardrobe each','AC + WiFi','Attached geyser']},
-    {type:'Double Sharing',basePrice:6500,tag:'Best Value',defaultImg:DEFAULT_IMGS.room2,features:['2 residents','Personal locker','AC + WiFi','Attached geyser']},
-    {type:'Single Room',basePrice:9500,tag:'Premium',defaultImg:DEFAULT_IMGS.room3,features:['Private space','Full wardrobe','AC + WiFi','Attached geyser']},
+    {type:'Double Sharing',basePrice:6000,tag:'Best Value',defaultImg:DEFAULT_IMGS.room2,features:['2 residents','Personal locker','AC + WiFi','Attached geyser']},
+    {type:'Single Room',basePrice:10000,tag:'Premium',defaultImg:DEFAULT_IMGS.room3,features:['Private space','Full wardrobe','AC + WiFi','Attached geyser']},
   ];
   const roomPhotos=siteData.roomPhotos||[];
 
