@@ -1,4 +1,175 @@
 import { useState, useEffect, useRef } from 'react'
+import React, { useState } from "react";
+
+// 🔥 BOT DATA
+const BOT_ANSWERS = [
+  {
+    q: ['rent','price','kitna','cost','fees','charge','monthly'],
+    a: `Hamare PG mein rent ₹4,500 se start hota hai 😊
+
+• Triple Sharing: ₹4,500/person  
+• Double Sharing: ₹6,500/person  
+• Single Room: ₹10,000
+
+👉 Food optional hai (+₹3,000/month)  
+⚡ Light bill alag hoga  
+
+Rooms fast fill ho rahe hain, jaldi contact kare! 📞 8857009635`
+  },
+  {
+    q: ['food','khana','breakfast','lunch','dinner','meal','eat'],
+    a: `Haan bhai! Ghar jaisa fresh khana milta hai 😋  
+
+• Breakfast  
+• Lunch  
+• Dinner  
+• Tea / Milk  
+
+👉 Sirf ₹3,000/month extra  
+Healthy & hygienic food 👍`
+  },
+  {
+    q: ['wifi','internet','net','speed'],
+    a: `High-speed WiFi bilkul FREE hai 📶  
+Work ya study ke liye perfect!`
+  },
+  {
+    q: ['ac','air condition','cooling'],
+    a: `Haan! Sabhi rooms fully AC hain ❄️  
+Comfort guaranteed 👍`
+  },
+  {
+    q: ['security','safe','cctv','camera'],
+    a: `Safety top priority hai 🔒  
+
+• 24/7 CCTV surveillance  
+• Secure environment  
+• Boys & Girls dono ke liye safe`
+  },
+  {
+    q: ['location','address','kaha','where','map','fatehganj'],
+    a: `Prime location: Fatehganj, Vadodara 📍  
+
+👉 Map: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9`
+  },
+  {
+    q: ['contact','call','phone','number','whatsapp'],
+    a: `📞 9405334300  
+📞 8857009635  
+
+👉 WhatsApp bhi available hai`
+  },
+  {
+    q: ['booking','book','reserve','available'],
+    a: `Booking ke liye jaldi contact kare 🔥  
+
+📞 9405334300 / 8857009635  
+
+Rooms limited hain 😄`
+  },
+  {
+    q: ['light','electricity','bill'],
+    a: `Electricity rent mein included nahi hai ⚡`
+  },
+  {
+    q: ['hi','hello','hey','namaste'],
+    a: `Namaste! 🙏  
+
+Main Chhatrapati PG ka assistant hoon 😊  
+Aap kya jaana chahte ho?`
+  }
+];
+
+// 🔥 AI LOGIC
+function normalize(text) {
+  return text.toLowerCase().replace(/[^\w\s]/gi, '').trim();
+}
+
+function getScore(userMsg, keywords) {
+  let score = 0;
+  for (let word of keywords) {
+    if (userMsg.includes(word)) score += 2;
+    if (userMsg.split(' ').some(w => w.startsWith(word))) score += 1;
+  }
+  return score;
+}
+
+function getBotReply(message) {
+  const msg = normalize(message);
+
+  let bestMatch = null;
+  let highestScore = 0;
+
+  for (let item of BOT_ANSWERS) {
+    const score = getScore(msg, item.q);
+    if (score > highestScore) {
+      highestScore = score;
+      bestMatch = item;
+    }
+  }
+
+  if (bestMatch && highestScore > 0) return bestMatch.a;
+
+  return "Samajh nahi aaya 😅 Call kare: 9405334300";
+}
+
+// 🔥 MAIN COMPONENT
+function App() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+
+  const sendMessage = () => {
+    if (!input.trim()) return;
+
+    const botReply = getBotReply(input);
+
+    setMessages([
+      ...messages,
+      { sender: "user", text: input },
+      { sender: "bot", text: botReply }
+    ]);
+
+    setInput("");
+  };
+
+  return (
+    <div>
+
+      {/* 🔥 CHATBOX */}
+      <div style={{
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+        width: "300px",
+        background: "#fff",
+        borderRadius: "10px",
+        padding: "10px",
+        boxShadow: "0 0 10px rgba(0,0,0,0.2)"
+      }}>
+        
+        <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+          {messages.map((msg, i) => (
+            <p key={i}>
+              <b>{msg.sender}:</b> {msg.text}
+            </p>
+          ))}
+        </div>
+
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type message..."
+          style={{ width: "70%" }}
+        />
+
+        <button onClick={sendMessage}>Send</button>
+      </div>
+
+    </div>
+  );
+}
+
+export default App;
 
 /* ── Unsplash fallback images ── */
 const DEFAULT_IMGS = {
