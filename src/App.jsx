@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 // 🔥 BOT DATA
 const BOT_ANSWERS = [
@@ -113,63 +112,6 @@ function getBotReply(message) {
   return "Samajh nahi aaya 😅 Call kare: 9405334300";
 }
 
-// 🔥 MAIN COMPONENT
-function App() {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-
-  const sendMessage = () => {
-    if (!input.trim()) return;
-
-    const botReply = getBotReply(input);
-
-    setMessages([
-      ...messages,
-      { sender: "user", text: input },
-      { sender: "bot", text: botReply }
-    ]);
-
-    setInput("");
-  };
-
-  return (
-    <div>
-
-      {/* 🔥 CHATBOX */}
-      <div style={{
-        position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        width: "300px",
-        background: "#fff",
-        borderRadius: "10px",
-        padding: "10px",
-        boxShadow: "0 0 10px rgba(0,0,0,0.2)"
-      }}>
-        
-        <div style={{ maxHeight: "200px", overflowY: "auto" }}>
-          {messages.map((msg, i) => (
-            <p key={i}>
-              <b>{msg.sender}:</b> {msg.text}
-            </p>
-          ))}
-        </div>
-
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type message..."
-          style={{ width: "70%" }}
-        />
-
-        <button onClick={sendMessage}>Send</button>
-      </div>
-
-    </div>
-  );
-}
-
-export default App;
 
 /* ── Unsplash fallback images ── */
 const DEFAULT_IMGS = {
@@ -199,9 +141,10 @@ const AMENITIES = [
   {icon:'🛡️',label:'Bed Linen',desc:'Fresh bed sheets & pillow covers provided'},
 ]
 
-/* ── localStorage helpers ── */
-function getLS(k,def){ try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch{return def;} }
-function setLS(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch{} }
+/* ── In-memory photo store (no localStorage size limit) ── */
+const _store = {};
+function getLS(k,def){ return _store[k]!==undefined ? _store[k] : def; }
+function setLS(k,v){ _store[k]=v; }
 
 /* ── Intersection observer ── */
 function useVisible(t=.15){ const ref=useRef(null);const[v,setV]=useState(false);useEffect(()=>{const o=new IntersectionObserver(([e])=>{if(e.isIntersecting)setV(true)},{threshold:t});if(ref.current)o.observe(ref.current);return()=>o.disconnect();},[]);return[ref,v]; }
@@ -282,9 +225,14 @@ function AdminPanel({siteData,setSiteData,onClose}){
 
         {tab==='hero'&&(
           <div>
-            <div style={{fontSize:12,color:'#9a7a5a',marginBottom:8}}>Hero background image URL (direct image link)</div>
+            <div style={{fontSize:12,color:'#9a7a5a',marginBottom:8}}>Hero background — device se upload karo ya URL paste karo</div>
+            <div style={{background:'#1a0e05',border:'2px dashed #5a3010',borderRadius:10,padding:16,textAlign:'center',marginBottom:10,cursor:'pointer'}}
+              onClick={()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>updateHero(ev.target.result);r.readAsDataURL(f);};inp.click();}}>
+              <div style={{fontSize:22,marginBottom:4}}>📷</div>
+              <div style={{color:'#c8763a',fontWeight:700,fontSize:12}}>Click karo — device se hero photo choose karo</div>
+            </div>
             <div style={{display:'flex',gap:8}}>
-              <input defaultValue={siteData.hero||''} id="heroUrl" placeholder="https://…image.jpg"
+              <input defaultValue={siteData.hero||''} id="heroUrl" placeholder="Ya URL: https://…image.jpg"
                 style={{flex:1,background:'#1a0e05',border:'1px solid #3a1f05',color:'#fff',padding:'9px 12px',borderRadius:8,fontSize:13,outline:'none'}}/>
               <button onClick={()=>{const v=document.getElementById('heroUrl').value;updateHero(v);}} style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',border:'none',color:'#2d1a0a',padding:'9px 16px',borderRadius:8,cursor:'pointer',fontWeight:700,fontSize:13}}>Save</button>
             </div>
@@ -300,24 +248,61 @@ function AdminPanel({siteData,setSiteData,onClose}){
 
 function PhotoManager({section,photos,onAdd,onRemove}){
   const[url,setUrl]=useState('');const[label,setLabel]=useState('');
+  const[uploading,setUploading]=useState(false);
+  const fileRef=useRef(null);
+
+  function handleFileUpload(e){
+    const files=[...e.target.files];
+    if(!files.length)return;
+    setUploading(true);
+    let done=0;
+    files.forEach(file=>{
+      const reader=new FileReader();
+      reader.onload=ev=>{
+        onAdd(section, ev.target.result, file.name.replace(/\.[^.]+$/,''));
+        done++;
+        if(done===files.length)setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value='';
+  }
+
   return(
     <div>
-      <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap'}}>
-        <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="Image URL paste karo (https://…)"
-          style={{flex:2,minWidth:200,background:'#1a0e05',border:'1px solid #3a1f05',color:'#fff',padding:'9px 12px',borderRadius:8,fontSize:12,outline:'none'}}/>
+      {/* File upload section */}
+      <div style={{background:'#1a0e05',border:'2px dashed #5a3010',borderRadius:12,padding:20,marginBottom:14,textAlign:'center',cursor:'pointer'}}
+        onClick={()=>fileRef.current?.click()}
+        onDragOver={e=>{e.preventDefault();e.currentTarget.style.borderColor='#c8763a';}}
+        onDragLeave={e=>{e.currentTarget.style.borderColor='#5a3010';}}
+        onDrop={e=>{e.preventDefault();e.currentTarget.style.borderColor='#5a3010';const dt=e.dataTransfer;if(dt.files.length){const fakeEvt={target:{files:dt.files,value:''}};handleFileUpload(fakeEvt);}}}>
+        <input ref={fileRef} type="file" accept="image/*" multiple onChange={handleFileUpload} style={{display:'none'}}/>
+        <div style={{fontSize:28,marginBottom:6}}>{uploading?'⏳':'📷'}</div>
+        <div style={{color:'#c8763a',fontWeight:700,fontSize:13,marginBottom:3}}>
+          {uploading?'Uploading…':'Click ya drag karo photos yahan'}
+        </div>
+        <div style={{color:'#5a3010',fontSize:11}}>Device se real photos directly upload karo • Multiple select bhi chal jayega</div>
+      </div>
+
+      {/* OR URL paste */}
+      <div style={{display:'flex',gap:8,marginBottom:16,flexWrap:'wrap',alignItems:'center'}}>
+        <div style={{fontSize:11,color:'#5a3010',fontWeight:600,whiteSpace:'nowrap'}}>Ya URL:</div>
+        <input value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://…image.jpg"
+          style={{flex:2,minWidth:160,background:'#1a0e05',border:'1px solid #3a1f05',color:'#fff',padding:'9px 12px',borderRadius:8,fontSize:12,outline:'none'}}/>
         <input value={label} onChange={e=>setLabel(e.target.value)} placeholder="Label (optional)"
-          style={{flex:1,minWidth:120,background:'#1a0e05',border:'1px solid #3a1f05',color:'#fff',padding:'9px 12px',borderRadius:8,fontSize:12,outline:'none'}}/>
+          style={{flex:1,minWidth:100,background:'#1a0e05',border:'1px solid #3a1f05',color:'#fff',padding:'9px 12px',borderRadius:8,fontSize:12,outline:'none'}}/>
         <button onClick={()=>{onAdd(section,url,label);setUrl('');setLabel('');}} style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',border:'none',color:'#2d1a0a',padding:'9px 16px',borderRadius:8,cursor:'pointer',fontWeight:700,fontSize:13}}>+ Add</button>
       </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))',gap:10}}>
+
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))',gap:10}}>
         {photos.map((p,i)=>(
           <div key={i} style={{position:'relative',borderRadius:10,overflow:'hidden',aspectRatio:'1'}}>
             <img src={p.url||p} alt="" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
-            {p.label&&<div style={{position:'absolute',bottom:0,left:0,right:0,background:'rgba(0,0,0,.6)',color:'#fff',fontSize:10,padding:'4px 6px'}}>{p.label}</div>}
+            {p.label&&<div style={{position:'absolute',bottom:0,left:0,right:0,background:'rgba(0,0,0,.6)',color:'#fff',fontSize:10,padding:'4px 6px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{p.label}</div>}
             <button onClick={()=>onRemove(section,i)} style={{position:'absolute',top:4,right:4,width:22,height:22,borderRadius:'50%',background:'#ef4444',border:'none',color:'#fff',cursor:'pointer',fontSize:13,display:'flex',alignItems:'center',justifyContent:'center',lineHeight:1}}>✕</button>
           </div>
         ))}
-        {photos.length===0&&<div style={{gridColumn:'1/-1',textAlign:'center',color:'#5a3010',fontSize:13,padding:24}}>Koi photos nahi hai. Upar URL paste karo.</div>}
+        {photos.length===0&&<div style={{gridColumn:'1/-1',textAlign:'center',color:'#5a3010',fontSize:13,padding:24}}>Koi photos nahi hai. Upar se upload karo.</div>}
       </div>
     </div>
   );
@@ -601,26 +586,91 @@ function Chatbot(){
 /* ── Navbar ── */
 function Navbar({onAdminClick}){
   const[scrolled,setScrolled]=useState(false);
+  const[menuOpen,setMenuOpen]=useState(false);
+  const menuRef=useRef(null);
   useEffect(()=>{const fn=()=>setScrolled(window.scrollY>40);window.addEventListener('scroll',fn);return()=>window.removeEventListener('scroll',fn);},[]);
-  const links=[['home','Home'],['rooms','Rooms'],['food','Food'],['gallery','Gallery'],['amenities','Amenities'],['contact','Contact']];
+  useEffect(()=>{
+    const fn=(e)=>{if(menuRef.current&&!menuRef.current.contains(e.target))setMenuOpen(false);};
+    document.addEventListener('mousedown',fn);return()=>document.removeEventListener('mousedown',fn);
+  },[]);
+
+  const quickLinks=[
+    {label:'📍 Location',href:'#contact'},
+    {label:'✨ Facilities',href:'#amenities'},
+    {label:'🛏️ Rooms',href:'#rooms'},
+    {label:'💰 Rent Info',href:'#rooms'},
+  ];
+
   return(
     <nav style={{position:'fixed',top:0,left:0,right:0,zIndex:100,background:scrolled?'rgba(255,248,240,0.97)':'transparent',backdropFilter:scrolled?'blur(14px)':'none',boxShadow:scrolled?'0 2px 24px rgba(180,100,20,.12)':'none',transition:'all .4s ease',padding:'0 5vw'}}>
       <div style={{maxWidth:1200,margin:'0 auto',display:'flex',alignItems:'center',height:68,justifyContent:'space-between'}}>
-        <div style={{display:'flex',alignItems:'center',gap:10}}>
+
+        {/* Logo */}
+        <div style={{display:'flex',alignItems:'center',gap:10,flexShrink:0}}>
           <div style={{width:38,height:38,borderRadius:10,background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,boxShadow:'0 4px 12px rgba(200,118,58,.35)'}}>🏠</div>
           <div>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:17,fontWeight:700,color:scrolled?'#2d1a0a':'#fff',lineHeight:1.1}}>Chhatrapati PG</div>
             <div style={{fontSize:9,color:scrolled?'#c8763a':'#ffd9a0',fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase'}}>Premium Coliving</div>
           </div>
         </div>
-        <div style={{display:'flex',gap:24,alignItems:'center',flexWrap:'wrap'}}>
-          {links.map(([id,l])=>(
-            <a key={id} href={`#${id}`} style={{fontSize:13,fontWeight:600,color:scrolled?'#4a2c10':'#fff',textDecoration:'none',letterSpacing:'.04em',transition:'color .2s'}}
-              onMouseEnter={e=>e.target.style.color='#c8763a'}
-              onMouseLeave={e=>e.target.style.color=scrolled?'#4a2c10':'#fff'}>{l}</a>
-          ))}
-          <button onClick={onAdminClick} style={{background:'rgba(200,118,58,.15)',border:'1px solid rgba(200,118,58,.3)',color:scrolled?'#c8763a':'#ffd9a0',padding:'6px 14px',borderRadius:20,fontSize:12,fontWeight:600,cursor:'pointer',transition:'all .2s'}}>⚙ Admin</button>
-          <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s'}}
+
+        {/* Right side: 3-dot menu + Call button */}
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+
+          {/* 3-dot quick nav menu */}
+          <div ref={menuRef} style={{position:'relative'}}>
+            <button
+              onClick={()=>setMenuOpen(o=>!o)}
+              title="Quick Navigate"
+              style={{
+                width:40,height:40,borderRadius:'50%',
+                background:menuOpen
+                  ? (scrolled?'#f0e0cc':'rgba(255,255,255,.25)')
+                  : (scrolled?'rgba(200,118,58,.1)':'rgba(255,255,255,.12)'),
+                border:`1.5px solid ${scrolled?'rgba(200,118,58,.3)':'rgba(255,255,255,.3)'}`,
+                cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',
+                transition:'all .2s',flexShrink:0,
+                flexDirection:'column',gap:'4px',padding:'10px 12px'
+              }}>
+              {/* 3 dots vertical */}
+              {[0,1,2].map(i=>(
+                <div key={i} style={{width:4,height:4,borderRadius:'50%',background:scrolled?'#c8763a':'#fff',flexShrink:0}}/>
+              ))}
+            </button>
+
+            {/* Dropdown */}
+            {menuOpen&&(
+              <div style={{
+                position:'absolute',top:'calc(100% + 10px)',right:0,
+                background:'#fff',borderRadius:16,
+                boxShadow:'0 16px 48px rgba(0,0,0,.18)',
+                border:'1px solid #f0e4d0',
+                minWidth:180,overflow:'hidden',
+                animation:'fadeUp .2s cubic-bezier(.22,1,.36,1)',
+                zIndex:200
+              }}>
+                <div style={{padding:'10px 14px 6px',fontSize:10,color:'#c8763a',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase'}}>Quick Navigate</div>
+                {quickLinks.map(({label,href})=>(
+                  <a key={label} href={href}
+                    onClick={()=>setMenuOpen(false)}
+                    style={{
+                      display:'flex',alignItems:'center',gap:10,
+                      padding:'11px 16px',fontSize:13,fontWeight:600,
+                      color:'#4a2c10',textDecoration:'none',
+                      transition:'background .15s',borderTop:'1px solid #f9f0e8'
+                    }}
+                    onMouseEnter={e=>{e.currentTarget.style.background='#fef5e8';}}
+                    onMouseLeave={e=>{e.currentTarget.style.background='transparent';}}>
+                    {label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Call Now button */}
+          <a href="tel:9405334300"
+            style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s',whiteSpace:'nowrap',flexShrink:0}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'}
             onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call Now</a>
         </div>
