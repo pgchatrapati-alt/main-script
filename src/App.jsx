@@ -53,7 +53,7 @@ Comfort guaranteed 👍`
   },
   {
     q: ['contact','call','phone','number','whatsapp'],
-    a: `📞 9405334300  
+    a: `📞 8857009635  
 📞 8857009635  
 
 👉 WhatsApp bhi available hai`
@@ -62,7 +62,7 @@ Comfort guaranteed 👍`
     q: ['booking','book','reserve','available'],
     a: `Booking ke liye jaldi contact kare 🔥  
 
-📞 9405334300 / 8857009635  
+📞 8857009635  
 
 Rooms limited hain 😄`
   },
@@ -109,7 +109,7 @@ function getBotReply(message) {
 
   if (bestMatch && highestScore > 0) return bestMatch.a;
 
-  return "Samajh nahi aaya 😅 Call kare: 9405334300";
+  return "Samajh nahi aaya 😅 Call kare: 8857009635";
 }
 
 
@@ -316,16 +316,16 @@ Your personality: Warm, helpful, slightly persuasive, conversational. Use Hingli
 
 PG Information (use ONLY this, do not make up anything):
 - Name: Chhatrapati PG | Tagline: "PG Like Home"
-- Location: Fatehganj (Prime Location), Bareilly
+- Location: Fatehganj (Prime Location), Vadodara
 - Google Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9
-- Contact: 📞 9405334300 / 8857009635 | WhatsApp available
+- Contact: 📞 8857009635 | WhatsApp available
 - Rooms: Double Sharing & Triple Sharing
 - Rent: ₹4,500 – ₹10,000/month (depends on room type)
 - Available for: Males & Females (separate sections)
 - Facilities included: Fully Furnished Rooms, 2-time Food (Breakfast + Lunch/Dinner), Tea/Milk, AC, WiFi, Geyser in every washroom, Refrigerator, 24-hour Water Supply, Washing Machine Connection, Bed+Mattress+Pillow, Wardrobe & Personal Locker, Bedsheets & Pillow Covers, RO Drinking Water, Fully Loaded Kitchen with LPG, CCTV Surveillance, Ventilated Rooms
 - Location benefits: Close to Main Road, Near Market/ATM/Bank/Hospital/Auto Stand/Bus Stand
 - IMPORTANT: Electricity bill is NOT included in rent
-- If asked something not in this info, say: "Iske liye please call ya DM karein 📞 9405334300"
+- If asked something not in this info, say: "Iske liye please call ya DM karein 📞 8857009635"
 
 Rules:
 1. Always reply in Hinglish (natural mix of Hindi + English)
@@ -339,26 +339,26 @@ Rules:
 // Smart local fallback — covers common queries instantly without API
 const LOCAL_KB = [
   {k:['hi','hello','hey','namaste','helo','sup','hii'],r:'Namaste! 🙏 Main Chhatrapati PG ka assistant hoon — *PG Like Home!*\n\nKya jaanna chahte ho? Rent, food, rooms, location — sab bataunga! 😊'},
-  {k:['rent','price','kitna','cost','fees','charge','monthly','paisa','rate'],r:'Hamare PG mein rent ₹4,500 se start hota hai! 🏠\n• Double/Triple sharing options available\n• Rent: ₹4,500 – ₹10,000/month\n\nLight bill alag hoga. Call karein details ke liye: 📞 9405334300'},
+  {k:['rent','price','kitna','cost','fees','charge','monthly','paisa','rate'],r:'Hamare PG mein rent ₹4,500 se start hota hai! 🏠\n• Double/Triple sharing options available\n• Rent: ₹4,500 – ₹10,000/month\n\nLight bill alag hoga. Call karein details ke liye: 📞 8857009635'},
   {k:['food','khana','breakfast','lunch','dinner','meal','eat','bhojan'],r:'Haan! Ghar jaisa fresh khana milta hai 😋\n• Breakfast, Lunch/Dinner (2-time food)\n• Morning/Evening Tea & Milk bhi!\n\nFood already rent mein include hai. 🍱'},
   {k:['wifi','internet','net','speed','broadband'],r:'High-speed WiFi FREE hai — rent mein included! 📶\nStudents aur working professionals dono ke liye perfect. 😊'},
   {k:['ac','air condition','cooling','air-condition'],r:'Bilkul! Sab rooms mein AC hai ❄️\nFully air-conditioned — garmi ki tension nahi!'},
   {k:['security','safe','cctv','camera','safety','secure'],r:'24/7 CCTV surveillance hai 🔒\nGirls aur boys dono ke liye 100% safe environment. Strict entry policy bhi hai.'},
-  {k:['location','address','kaha','where','map','fatehganj','bareilly','reach'],r:'Prime location: Fatehganj, Bareilly! 📍\nMarket, ATM, Hospital, Bank, Bus Stand — sab walking distance mein.\n\n📍 Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9'},
-  {k:['contact','call','phone','number','whatsapp','reach','connect'],r:'Hume contact karo:\n📞 9405334300\n📞 8857009635\n💬 WhatsApp pe bhi respond karte hain turant!'},
-  {k:['girl','female','ladies','women','lady'],r:'Haan! Girls ke liye alag secure section hai 👩\nFull CCTV, safe environment, strict entry policy.\n\nBilkul safe aur comfortable. 📞 9405334300'},
-  {k:['boy','male','men','gents','man'],r:'Haan! Boys ke liye bhi rooms available hain 👦\nFully furnished + AC + WiFi — sab included!\n\nJaldi book karo, rooms limited hain! 📞 9405334300'},
+  {k:['location','address','kaha','where','map','fatehganj','bareilly','reach'],r:'Prime location: Fatehganj, Vadodara! 📍\nMarket, ATM, Hospital, Bank, Bus Stand — sab walking distance mein.\n\n📍 Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9'},
+  {k:['contact','call','phone','number','whatsapp','reach','connect'],r:'Hume contact karo:\n📞 8857009635\n📞 8857009635\n💬 WhatsApp pe bhi respond karte hain turant!'},
+  {k:['girl','female','ladies','women','lady'],r:'Haan! Girls ke liye alag secure section hai 👩\nFull CCTV, safe environment, strict entry policy.\n\nBilkul safe aur comfortable. 📞 8857009635'},
+  {k:['boy','male','men','gents','man'],r:'Haan! Boys ke liye bhi rooms available hain 👦\nFully furnished + AC + WiFi — sab included!\n\nJaldi book karo, rooms limited hain! 📞 8857009635'},
   {k:['water','geyser','hot water','paani'],r:'24/7 fresh water supply + RO filtered drinking water 💧\nHar washroom mein geyser attached hai. Hot water ki koi tension nahi! 🚿'},
   {k:['furniture','furnished','bed','mattress','wardrobe','almirah','locker'],r:'Fully Furnished rooms! 🛏️\n• Bed + Mattress + Pillow\n• Wardrobe + Personal Locker\n• Bedsheets & Pillow Covers bhi!'},
   {k:['washing','laundry','kapde','machine','washer'],r:'Washing Machine connection available hai 🫧\nKapde dhone ki koi problem nahi!'},
-  {k:['book','booking','reserve','available','vacancy','room mil'],r:'Room book karne ke liye abhi call karein! 📞 9405334300\n\nRooms jaldi bhar jaate hain — pehle aao pehle pao! Limited seats hain. 🏃'},
-  {k:['deposit','advance','security deposit'],r:'Security deposit details ke liye call karein:\n📞 9405334300 / 8857009635\nWoh aapko poori details denge. 😊'},
+  {k:['book','booking','reserve','available','vacancy','room mil'],r:'Room book karne ke liye abhi call karein! 📞 8857009635\n\nRooms jaldi bhar jaate hain — pehle aao pehle pao! Limited seats hain. 🏃'},
+  {k:['deposit','advance','security deposit'],r:'Security deposit details ke liye call karein:\n📞 8857009635\nWoh aapko poori details denge. 😊'},
   {k:['kitchen','cooking','utensil','gas','lpg','cook'],r:'Fully loaded kitchen available hai! 🍳\nSaare utensils + LPG gas supply included. Ghar jaisa feel!'},
   {k:['electricity','light bill','bijli','current','electric'],r:'Light bill (electricity) rent mein include nahi hai ⚡\nActual usage ke hisaab se alag charge hoga. Baaki sab included!'},
-  {k:['sharing','single','double','triple','occupancy','roommate'],r:'Hamare paas double aur triple sharing rooms available hain!\n• Rent: ₹4,500 – ₹10,000/month\n\nKaun sa option chahiye? 📞 9405334300'},
-  {k:['thanks','thank','shukriya','dhanyawad','thankyou'],r:'Khushi hui aapki madad karke! 😊\nKoi bhi sawaal ho toh pucho. Room book karne ke liye: 📞 9405334300'},
+  {k:['sharing','single','double','triple','occupancy','roommate'],r:'Hamare paas double aur triple sharing rooms available hain!\n• Rent: ₹4,500 – ₹10,000/month\n\nKaun sa option chahiye? 📞 8857009635'},
+  {k:['thanks','thank','shukriya','dhanyawad','thankyou'],r:'Khushi hui aapki madad karke! 😊\nKoi bhi sawaal ho toh pucho. Room book karne ke liye: 📞 8857009635'},
   {k:['refrigerator','fridge'],r:'Haan! Shared refrigerator access hai 🧊\nFully furnished rooms mein sab kuch hai!'},
-  {k:['visit','dekh','see','tour','aana','come'],r:'Zaroor aayein! 🏠 Pehle call karein taaki room ready rakhen:\n📞 9405334300\n\nFatehganj aana easy hai — market ke paas hi hai!'},
+  {k:['visit','dekh','see','tour','aana','come'],r:'Zaroor aayein! 🏠 Pehle call karein taaki room ready rakhen:\n📞 8857009635\n\nFatehganj aana easy hai — market ke paas hi hai!'},
 ];
 
 function localReply(msg){
@@ -452,10 +452,10 @@ function Chatbot(){
       // No local answer — call AI directly
       try{
         const aiAns = await askAI(t, newMsgs);
-        setMsgs(p=>[...p,{from:'bot',text:aiAns||'Iske liye please call karein 📞 9405334300',ts:Date.now(),source:'ai'}]);
+        setMsgs(p=>[...p,{from:'bot',text:aiAns||'Iske liye please call karein 📞 8857009635',ts:Date.now(),source:'ai'}]);
       }catch(e){
         setAiError(true);
-        setMsgs(p=>[...p,{from:'bot',text:'Iske liye please call ya WhatsApp karein:\n📞 9405334300 / 8857009635\n\nHum jaldi reply karenge! 😊',ts:Date.now(),source:'fallback'}]);
+        setMsgs(p=>[...p,{from:'bot',text:'Iske liye please call ya WhatsApp karein:\n📞 8857009635\n\nHum jaldi reply karenge! 😊',ts:Date.now(),source:'fallback'}]);
       }
       setTyping(false);
     }
@@ -500,7 +500,7 @@ function Chatbot(){
               AI-powered • Usually replies instantly
             </div>
           </div>
-          <a href="https://wa.me/919405334300" target="_blank" rel="noreferrer"
+          <a href="https://wa.me/918857009635" target="_blank" rel="noreferrer"
             style={{background:'#25d366',borderRadius:8,padding:'5px 9px',fontSize:16,textDecoration:'none',display:'flex',alignItems:'center',transition:'transform .2s'}}
             title="WhatsApp"
             onMouseEnter={e=>e.currentTarget.style.transform='scale(1.1)'}
@@ -570,10 +570,10 @@ function Chatbot(){
 
         {/* Bottom CTA strip */}
         <div style={{background:'#0a0500',padding:'8px 12px',display:'flex',gap:8,justifyContent:'center',borderTop:'1px solid #1a0a02',flexShrink:0}}>
-          <a href="tel:9405334300" style={{flex:1,background:'#c8763a',color:'#fff',padding:'8px',borderRadius:10,fontSize:12,fontWeight:700,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,transition:'opacity .2s'}}
+          <a href="tel:8857009635" style={{flex:1,background:'#c8763a',color:'#fff',padding:'8px',borderRadius:10,fontSize:12,fontWeight:700,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,transition:'opacity .2s'}}
             onMouseEnter={e=>e.currentTarget.style.opacity='.85'}
             onMouseLeave={e=>e.currentTarget.style.opacity='1'}>📞 Call Now</a>
-          <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20Main%20room%20ke%20baare%20mein%20jaanna%20chahta%20hoon." target="_blank" rel="noreferrer"
+          <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20Main%20room%20ke%20baare%20mein%20jaanna%20chahta%20hoon." target="_blank" rel="noreferrer"
             style={{flex:1,background:'#25d366',color:'#fff',padding:'8px',borderRadius:10,fontSize:12,fontWeight:700,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,transition:'opacity .2s'}}
             onMouseEnter={e=>e.currentTarget.style.opacity='.85'}
             onMouseLeave={e=>e.currentTarget.style.opacity='1'}>💬 WhatsApp</a>
@@ -669,7 +669,7 @@ function Navbar({onAdminClick}){
           </div>
 
           {/* Call Now button */}
-          <a href="tel:9405334300"
+          <a href="tel:8857009635"
             style={{background:'linear-gradient(135deg,#c8763a,#e8a44a)',color:'#fff',padding:'9px 20px',borderRadius:30,fontSize:13,fontWeight:700,textDecoration:'none',boxShadow:'0 4px 16px rgba(200,118,58,.4)',transition:'transform .2s',whiteSpace:'nowrap',flexShrink:0}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-2px)'}
             onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call Now</a>
@@ -689,7 +689,7 @@ function Hero({heroImg}){
       <div style={{position:'relative',zIndex:1,padding:'120px 6vw 80px',maxWidth:1200,margin:'0 auto',width:'100%'}}>
         <div style={{display:'inline-flex',alignItems:'center',gap:8,background:'rgba(200,118,58,.25)',border:'1px solid rgba(232,164,74,.4)',borderRadius:30,padding:'6px 16px',marginBottom:24,backdropFilter:'blur(8px)'}}>
           <div style={{width:6,height:6,borderRadius:'50%',background:'#f5c842',boxShadow:'0 0 8px #f5c842'}}/>
-          <span style={{fontSize:11,color:'#ffd9a0',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase'}}>Fatehganj, Bareilly</span>
+          <span style={{fontSize:11,color:'#ffd9a0',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase'}}>Fatehganj, Vadodara</span>
         </div>
         <h1 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(36px,6vw,76px)',fontWeight:900,color:'#fff',lineHeight:1.08,marginBottom:20,maxWidth:700}}>
           Your Home<br/><span style={{background:'linear-gradient(90deg,#f5c842,#e8a44a)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}}>Away from Home</span>
@@ -703,10 +703,10 @@ function Hero({heroImg}){
           ))}
         </div>
         <div style={{display:'flex',gap:14,flexWrap:'wrap'}}>
-          <a href="tel:9405334300" style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',color:'#2d1a0a',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',boxShadow:'0 8px 30px rgba(200,118,58,.5)',display:'flex',alignItems:'center',gap:8,transition:'transform .2s'}}
+          <a href="tel:8857009635" style={{background:'linear-gradient(135deg,#c8763a,#f5c842)',color:'#2d1a0a',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',boxShadow:'0 8px 30px rgba(200,118,58,.5)',display:'flex',alignItems:'center',gap:8,transition:'transform .2s'}}
             onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
-            onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call: 9405334300</a>
-          <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
+            onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞 Call: 8857009635</a>
+          <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
             style={{background:'rgba(255,255,255,.1)',border:'1.5px solid rgba(255,255,255,.35)',color:'#fff',padding:'14px 32px',borderRadius:50,fontSize:15,fontWeight:700,textDecoration:'none',backdropFilter:'blur(8px)',display:'flex',alignItems:'center',gap:8,transition:'background .2s'}}
             onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
             onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}>💬 WhatsApp Us</a>
@@ -800,7 +800,7 @@ function Rooms({siteData}){
                         <span style={{fontSize:13,color:'#c8763a',fontWeight:600}}>🍽️ Breakfast + Lunch + Dinner</span>
                       </div>}
                     </div>
-                    <a href="tel:9405334300" style={{display:'block',textAlign:'center',background:active===i?'linear-gradient(135deg,#c8763a,#f5c842)':'#fdf0e0',color:active===i?'#fff':'#c8763a',padding:'12px',borderRadius:14,fontSize:13,fontWeight:700,textDecoration:'none',transition:'all .3s',border:'1.5px solid #e8c090'}}>
+                    <a href="tel:8857009635" style={{display:'block',textAlign:'center',background:active===i?'linear-gradient(135deg,#c8763a,#f5c842)':'#fdf0e0',color:active===i?'#fff':'#c8763a',padding:'12px',borderRadius:14,fontSize:13,fontWeight:700,textDecoration:'none',transition:'all .3s',border:'1.5px solid #e8c090'}}>
                       Book This Room →
                     </a>
                   </div>
@@ -991,9 +991,9 @@ function Contact(){
           <FadeIn>
             <div>
               {[
-                {icon:'📍',title:'Location',val:'Fatehganj, Bareilly',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
-                {icon:'📞',title:'Call Us',val:'9405334300 / 8857009635',link:'tel:9405334300',linkText:'Call Now →'},
-                {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
+                {icon:'📍',title:'Location',val:'Fatehganj, Vadodara',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
+                {icon:'📞',title:'Call Us',val:'8857009635',link:'tel:8857009635',linkText:'Call Now →'},
+                {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
                 {icon:'⏰',title:'Visit Timing',val:'9:00 AM – 8:00 PM, All days',link:null},
               ].map(item=>(
                 <div key={item.title} style={{display:'flex',gap:18,marginBottom:28}}>
@@ -1014,7 +1014,7 @@ function Contact(){
           </FadeIn>
           <FadeIn delay={150}>
             <div style={{borderRadius:24,overflow:'hidden',boxShadow:'0 20px 60px rgba(0,0,0,.5)',border:'1px solid rgba(255,255,255,.08)'}}>
-              <iframe src="https://maps.google.com/maps?q=Fatehganj,Bareilly,UP&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
+              <iframe src="https://maps.google.com/maps?q=Fatehganj,Vadodara,Gujarat&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
             </div>
             <a href="https://maps.app.goo.gl/DZNesjYqhwrV4uEg9" target="_blank" rel="noreferrer"
               style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginTop:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.12)',borderRadius:14,padding:'12px',color:'#fff',textDecoration:'none',fontSize:13,fontWeight:600,transition:'background .2s'}}
@@ -1039,8 +1039,8 @@ function CTABanner(){
           <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:'clamp(24px,4vw,42px)',fontWeight:900,color:'#2d1a0a',marginBottom:14}}>Ready to Move In?</h2>
           <p style={{fontSize:15,color:'rgba(45,26,10,.75)',marginBottom:32,lineHeight:1.7}}>Rooms fill up fast! Call us now or WhatsApp and we'll respond within minutes.</p>
           <div style={{display:'flex',gap:14,justifyContent:'center',flexWrap:'wrap'}}>
-            <a href="tel:9405334300" style={{background:'#2d1a0a',color:'#f5c842',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>📞 9405334300</a>
-            <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
+            <a href="tel:8857009635" style={{background:'#2d1a0a',color:'#f5c842',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>📞 8857009635</a>
+            <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
               style={{background:'#25d366',color:'#fff',padding:'15px 36px',borderRadius:50,fontSize:15,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',gap:8}}>💬 WhatsApp</a>
           </div>
         </FadeIn>
@@ -1060,7 +1060,7 @@ function Footer(){
               <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#c8763a,#e8a44a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:18}}>🏠</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:16,fontWeight:700,color:'#fff'}}>Chhatrapati PG</div>
             </div>
-            <p style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>Premium coliving for males & females in Fatehganj, Bareilly. PG like home. ✌️</p>
+            <p style={{fontSize:12,color:'rgba(255,255,255,.45)',lineHeight:1.8}}>Premium coliving for males & females in Fatehganj, Vadodara. PG like home. ✌️</p>
           </div>
           <div>
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Quick Links</div>
@@ -1073,13 +1073,13 @@ function Footer(){
           <div>
             <div style={{fontSize:11,color:'#f5c842',fontWeight:700,letterSpacing:'.1em',textTransform:'uppercase',marginBottom:14}}>Contact</div>
             <div style={{fontSize:13,color:'rgba(255,255,255,.6)',lineHeight:2.1}}>
-              <div>📍 Fatehganj, Bareilly</div><div>📞 9405334300</div><div>📞 8857009635</div>
+              <div>📍 Fatehganj, Vadodara</div><div>📞 8857009635</div><div>📞 8857009635</div>
             </div>
             <div style={{display:'flex',gap:10,marginTop:14}}>
-              <a href="https://wa.me/919405334300" target="_blank" rel="noreferrer" style={{width:36,height:36,background:'#25d366',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
+              <a href="https://wa.me/918857009635" target="_blank" rel="noreferrer" style={{width:36,height:36,background:'#25d366',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
                 onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
                 onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>💬</a>
-              <a href="tel:9405334300" style={{width:36,height:36,background:'#c8763a',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
+              <a href="tel:8857009635" style={{width:36,height:36,background:'#c8763a',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontSize:18,textDecoration:'none',transition:'transform .2s'}}
                 onMouseEnter={e=>e.currentTarget.style.transform='translateY(-3px)'}
                 onMouseLeave={e=>e.currentTarget.style.transform='translateY(0)'}>📞</a>
             </div>
@@ -1097,7 +1097,7 @@ function Footer(){
 /* ── Floating WhatsApp ── */
 function FloatingWA(){
   return(
-    <a href="https://wa.me/919405334300?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
+    <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire%20about%20rooms." target="_blank" rel="noreferrer"
       style={{position:'fixed',bottom:28,right:24,zIndex:998,width:56,height:56,background:'#25d366',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,boxShadow:'0 6px 24px rgba(37,211,102,.5)',textDecoration:'none',animation:'wabounce 2.5s ease-in-out infinite',transition:'transform .25s'}}
       onMouseEnter={e=>e.currentTarget.style.transform='scale(1.12)'}
       onMouseLeave={e=>e.currentTarget.style.transform='scale(1)'}>💬</a>
