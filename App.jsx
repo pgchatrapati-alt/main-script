@@ -1088,6 +1088,7 @@ function Footer(){
         <div style={{borderTop:'1px solid rgba(255,255,255,.07)',paddingTop:20,display:'flex',justifyContent:'space-between',flexWrap:'wrap',gap:10}}>
           <div style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>© 2025 Chhatrapati PG. All rights reserved.</div>
           <div style={{fontSize:12,color:'rgba(255,255,255,.3)'}}>Made with ❤️ for Fatehganj residents</div>
+          <div id="admin-trigger" style={{fontSize:11,color:'rgba(255,255,255,.08)',cursor:'pointer',userSelect:'none'}} onClick={()=>window._openAdmin&&window._openAdmin()}>⚙</div>
         </div>
       </div>
     </footer>
@@ -1108,6 +1109,7 @@ function FloatingWA(){
 export default function App(){
   const[siteData,setSiteData]=useState(()=>getLS('siteData',{roomPhotos:[],foodPhotos:[],galleryPhotos:[],hero:''}));
   const[showAdmin,setShowAdmin]=useState(false);
+  useEffect(()=>{window._openAdmin=()=>setShowAdmin(true);return()=>{delete window._openAdmin;};},[]);
 
   useEffect(()=>{
     const link=document.createElement('link');link.rel='stylesheet';
