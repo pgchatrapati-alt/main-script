@@ -49,7 +49,7 @@ Comfort guaranteed 👍`
     q: ['location','address','kaha','where','map','fatehganj'],
     a: `Prime location: Fatehganj, Vadodara 📍  
 
-👉 Map: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9`
+👉 Map: https://maps.app.goo.gl/H6ETqSCBrpbAq9xD7`
   },
   {
     q: ['contact','call','phone','number','whatsapp'],
@@ -335,7 +335,7 @@ Your personality: Warm, helpful, slightly persuasive, conversational. Use Hingli
 PG Information (use ONLY this, do not make up anything):
 - Name: Chhatrapati PG | Tagline: "PG Like Home"
 - Location: Fatehganj (Prime Location), Vadodara
-- Google Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9
+- Google Maps: https://maps.app.goo.gl/H6ETqSCBrpbAq9xD7
 - Contact: 📞 8857009635 | WhatsApp available
 - Rooms: Double Sharing & Triple Sharing
 - Rent: ₹4,500 – ₹10,000/month (depends on room type)
@@ -362,7 +362,7 @@ const LOCAL_KB = [
   {k:['wifi','internet','net','speed','broadband'],r:'High-speed WiFi FREE hai — rent mein included! 📶\nStudents aur working professionals dono ke liye perfect. 😊'},
   {k:['ac','air condition','cooling','air-condition'],r:'Bilkul! Sab rooms mein AC hai ❄️\nFully air-conditioned — garmi ki tension nahi!'},
   {k:['security','safe','cctv','camera','safety','secure'],r:'24/7 CCTV surveillance hai 🔒\nGirls aur boys dono ke liye 100% safe environment. Strict entry policy bhi hai.'},
-  {k:['location','address','kaha','where','map','fatehganj','bareilly','reach'],r:'Prime location: Fatehganj, Vadodara! 📍\nMarket, ATM, Hospital, Bank, Bus Stand — sab walking distance mein.\n\n📍 Maps: https://maps.app.goo.gl/DZNesjYqhwrV4uEg9'},
+  {k:['location','address','kaha','where','map','fatehganj','bareilly','reach'],r:'Prime location: Fatehganj, Vadodara! 📍\nMarket, ATM, Hospital, Bank, Bus Stand — sab walking distance mein.\n\n📍 Maps: https://maps.app.goo.gl/H6ETqSCBrpbAq9xD7'},
   {k:['contact','call','phone','number','whatsapp','reach','connect'],r:'Hume contact karo:\n📞 8857009635\n📞 8857009635\n💬 WhatsApp pe bhi respond karte hain turant!'},
   {k:['girl','female','ladies','women','lady'],r:'Haan! Girls ke liye alag secure section hai 👩\nFull CCTV, safe environment, strict entry policy.\n\nBilkul safe aur comfortable. 📞 8857009635'},
   {k:['boy','male','men','gents','man'],r:'Haan! Boys ke liye bhi rooms available hain 👦\nFully furnished + AC + WiFi — sab included!\n\nJaldi book karo, rooms limited hain! 📞 8857009635'},
@@ -1009,7 +1009,7 @@ function Contact(){
           <FadeIn>
             <div>
               {[
-                {icon:'📍',title:'Location',val:'Fatehganj, Vadodara',link:'https://maps.app.goo.gl/DZNesjYqhwrV4uEg9',linkText:'Open in Google Maps →'},
+                {icon:'📍',title:'Location',val:'Fatehganj, Vadodara',link:'https://maps.app.goo.gl/H6ETqSCBrpbAq9xD7',linkText:'Open in Google Maps →'},
                 {icon:'📞',title:'Call Us',val:'8857009635',link:'tel:8857009635',linkText:'Call Now →'},
                 {icon:'💬',title:'WhatsApp',val:'Chat for quick reply',link:'https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!%20I%20want%20to%20enquire.',linkText:'Open WhatsApp →'},
                 {icon:'⏰',title:'Visit Timing',val:'9:00 AM – 8:00 PM, All days',link:null},
@@ -1032,9 +1032,9 @@ function Contact(){
           </FadeIn>
           <FadeIn delay={150}>
             <div style={{borderRadius:24,overflow:'hidden',boxShadow:'0 20px 60px rgba(0,0,0,.5)',border:'1px solid rgba(255,255,255,.08)'}}>
-              <iframe src="https://maps.google.com/maps?q=Fatehganj,Vadodara,Gujarat&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Location"/>
+              <iframe src="https://maps.google.com/maps?q=22.3252818,73.1892625&z=17&output=embed" width="100%" height="340" style={{border:0,display:'block'}} allowFullScreen loading="lazy" title="Chhatrapati PG Location"/>
             </div>
-            <a href="https://maps.app.goo.gl/DZNesjYqhwrV4uEg9" target="_blank" rel="noreferrer"
+            <a href="https://maps.app.goo.gl/H6ETqSCBrpbAq9xD7" target="_blank" rel="noreferrer"
               style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,marginTop:12,background:'rgba(255,255,255,.06)',border:'1px solid rgba(255,255,255,.12)',borderRadius:14,padding:'12px',color:'#fff',textDecoration:'none',fontSize:13,fontWeight:600,transition:'background .2s'}}
               onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}
               onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.06)'}>
@@ -1123,6 +1123,54 @@ function FloatingWA(){
   );
 }
 
+/* ── Mobile Bottom CTA Bar (only on mobile) ── */
+function MobileBottomBar(){
+  const[active,setActive]=useState('');
+  const items=[
+    {icon:'🏠',label:'Home',href:'#home'},
+    {icon:'🛏️',label:'Rooms',href:'#rooms'},
+    {icon:'✨',label:'Amenities',href:'#amenities'},
+    {icon:'📍',label:'Location',href:'#contact'},
+  ];
+  return(
+    <div style={{
+      position:'fixed',bottom:0,left:0,right:0,zIndex:995,
+      background:'rgba(10,5,1,0.98)',
+      backdropFilter:'blur(24px)',WebkitBackdropFilter:'blur(24px)',
+      borderTop:'1px solid rgba(200,118,58,.2)',
+      paddingBottom:'env(safe-area-inset-bottom,0px)',
+      boxShadow:'0 -12px 40px rgba(0,0,0,.5)',
+    }} className="mobile-bottom-bar">
+      {/* Nav icons row */}
+      <div style={{display:'flex',justifyContent:'space-around',alignItems:'center',padding:'6px 8px 0'}}>
+        {items.map(({icon,label,href})=>(
+          <a key={label} href={href} onClick={()=>setActive(label)}
+            style={{
+              display:'flex',flexDirection:'column',alignItems:'center',gap:2,
+              textDecoration:'none',padding:'6px 12px',borderRadius:12,
+              background:active===label?'rgba(200,118,58,.15)':'transparent',
+              transition:'all .2s',minWidth:56,
+            }}>
+            <span style={{fontSize:20,lineHeight:1}}>{icon}</span>
+            <span style={{fontSize:10,fontWeight:600,color:active===label?'#f5c842':'rgba(255,255,255,.45)',letterSpacing:'.02em'}}>{label}</span>
+          </a>
+        ))}
+      </div>
+      {/* CTA buttons row */}
+      <div style={{display:'flex',gap:8,padding:'8px 12px 10px'}}>
+        <a href="tel:8857009635"
+          style={{flex:1,background:'linear-gradient(135deg,#c8763a,#e8954a)',color:'#fff',padding:'12px 8px',borderRadius:14,fontSize:13,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,boxShadow:'0 4px 20px rgba(200,118,58,.45)',letterSpacing:'.2px'}}>
+          📞 Call Now
+        </a>
+        <a href="https://wa.me/918857009635?text=Hi%20Chhatrapati%20PG!" target="_blank" rel="noreferrer"
+          style={{flex:1,background:'linear-gradient(135deg,#1db954,#25d366)',color:'#fff',padding:'12px 8px',borderRadius:14,fontSize:13,fontWeight:800,textDecoration:'none',display:'flex',alignItems:'center',justifyContent:'center',gap:5,boxShadow:'0 4px 20px rgba(37,211,102,.4)',letterSpacing:'.2px'}}>
+          💬 WhatsApp
+        </a>
+      </div>
+    </div>
+  );
+}
+
 /* ── App root ── */
 export default function App(){
   const[siteData,setSiteData]=useState(()=>getLS('siteData',{roomPhotos:[],foodPhotos:[],galleryPhotos:[],hero:''}));
@@ -1136,17 +1184,172 @@ export default function App(){
     const style=document.createElement('style');
     style.textContent=`
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-      html{scroll-behavior:smooth;}
+      html{scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;}
       body{font-family:'DM Sans',sans-serif;background:#fdf8f2;overflow-x:hidden;}
-      ::-webkit-scrollbar{width:5px;}
+      ::-webkit-scrollbar{width:4px;}
       ::-webkit-scrollbar-track{background:#2d1a0a;}
       ::-webkit-scrollbar-thumb{background:#c8763a;border-radius:4px;}
       @keyframes wabounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
       @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
       @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+      @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+      @keyframes floatUp{0%{opacity:0;transform:translateY(30px);}100%{opacity:1;transform:translateY(0);}}
+
+      /* ── Mobile bottom bar ── */
+      .mobile-bottom-bar{display:none!important;}
+
+      /* ── MOBILE PREMIUM UI ── */
       @media(max-width:768px){
-        nav>div>div:last-child>a:not(:last-child){display:none!important;}
-        section>div{grid-template-columns:1fr!important;}
+        html{-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
+        body{padding-bottom:74px;-webkit-font-smoothing:antialiased;}
+
+        /* Bottom bar */
+        .mobile-bottom-bar{
+          display:flex!important;
+          position:fixed;bottom:0;left:0;right:0;z-index:200;
+          background:rgba(15,8,2,0.97);
+          backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+          border-top:1px solid rgba(200,118,58,0.2);
+          padding:0 0 env(safe-area-inset-bottom,0);
+          box-shadow:0 -8px 32px rgba(0,0,0,0.4);
+        }
+
+        /* Hide floating WA — bottom bar handles it */
+        a[href*="wa.me"]{display:none!important;}
+
+        /* ── NAVBAR ── */
+        nav{padding:0 4vw!important;background:rgba(15,8,2,0.95)!important;backdrop-filter:blur(20px)!important;}
+        nav>div{height:56px!important;}
+
+        /* ── HERO ── */
+        #home{min-height:100svh!important;}
+        #home h1{font-size:clamp(28px,7.5vw,38px)!important;line-height:1.15!important;letter-spacing:-0.5px!important;}
+        #home>div:last-child{padding:72px 5vw 48px!important;}
+        #home>div:last-child>p{font-size:14px!important;line-height:1.6!important;}
+        #home>div:last-child>div:nth-child(4){
+          display:grid!important;grid-template-columns:1fr 1fr!important;
+          gap:10px!important;margin-bottom:24px!important;
+        }
+        #home>div:last-child>div:nth-child(4)>div{
+          background:rgba(255,255,255,0.08)!important;
+          border:1px solid rgba(255,255,255,0.15)!important;
+          border-radius:16px!important;
+          padding:14px 10px!important;
+          backdrop-filter:blur(10px)!important;
+        }
+        #home>div:last-child>div:nth-child(5){flex-direction:column!important;gap:10px!important;}
+        #home>div:last-child>div:nth-child(5)>a{
+          text-align:center!important;justify-content:center!important;
+          padding:16px 20px!important;border-radius:16px!important;
+          font-size:15px!important;letter-spacing:0.3px!important;
+        }
+
+        /* ── SECTION HEADINGS ── */
+        section h2, #rooms h2, #food h2, #gallery h2, #amenities h2, #contact h2{
+          font-size:clamp(24px,6vw,32px)!important;
+        }
+
+        /* ── ROOMS ── */
+        #rooms{padding:52px 4vw!important;}
+        #rooms>div>div:last-child{grid-template-columns:1fr!important;gap:16px!important;}
+        /* Room card — make it feel like a premium mobile card */
+        #rooms>div>div:last-child>div{
+          border-radius:20px!important;
+          overflow:hidden!important;
+          box-shadow:0 8px 32px rgba(0,0,0,0.12)!important;
+        }
+        /* Room card image taller on mobile */
+        #rooms>div>div:last-child>div img{height:220px!important;}
+
+        /* ── FOOD ── */
+        #food{padding:52px 4vw!important;}
+        #food>div>div{grid-template-columns:1fr!important;gap:28px!important;}
+        #food>div>div>div:last-child{grid-template-columns:1fr 1fr!important;gap:12px!important;}
+
+        /* ── GALLERY ── */
+        #gallery{padding:52px 4vw!important;}
+        #gallery>div>div:last-child{
+          grid-template-columns:1fr 1fr!important;
+          grid-auto-rows:150px!important;
+          gap:8px!important;
+        }
+        #gallery>div>div:last-child>div:first-child>div{grid-column:span 1!important;}
+        /* Gallery items — nice rounded corners */
+        #gallery>div>div:last-child>div>div>img{border-radius:14px!important;}
+
+        /* ── AMENITIES ── */
+        #amenities{padding:52px 4vw!important;}
+        #amenities>div>div:last-child{
+          grid-template-columns:1fr 1fr!important;
+          gap:10px!important;
+        }
+        /* Amenity card — compact premium pill */
+        #amenities>div>div:last-child>div{
+          border-radius:18px!important;
+          padding:16px 12px!important;
+        }
+
+        /* ── CONTACT ── */
+        #contact{padding:52px 4vw!important;}
+        #contact>div>div:last-child{grid-template-columns:1fr!important;gap:24px!important;}
+        /* Map — taller on mobile */
+        #contact iframe{height:280px!important;border-radius:16px!important;}
+        /* Info cards */
+        #contact>div>div:last-child>div:first-child>div{
+          border-radius:18px!important;
+          padding:16px!important;
+        }
+
+        /* ── TESTIMONIALS ── */
+        section>div>div[style*="auto-fit"]{grid-template-columns:1fr!important;}
+
+        /* ── CTA BANNER ── */
+        section>div>div>div[style*="flex"]{
+          flex-direction:column!important;
+          align-items:stretch!important;
+          gap:12px!important;
+        }
+        section>div>div>div[style*="flex"]>a{
+          text-align:center!important;
+          border-radius:16px!important;
+        }
+
+        /* ── FOOTER ── */
+        footer>div>div:first-child{flex-direction:column!important;gap:20px!important;text-align:center!important;}
+        footer>div>div:last-child{flex-direction:column!important;gap:8px!important;text-align:center!important;}
+
+        /* ── CHATBOT ── */
+        div[style*="bottom:170px"]{
+          width:calc(100vw - 20px)!important;
+          right:10px!important;
+          bottom:80px!important;
+          border-radius:20px!important;
+          max-height:65vh!important;
+        }
+        button[style*="bottom:100px"]{bottom:76px!important;right:16px!important;width:52px!important;height:52px!important;}
+
+        /* ── ADMIN PANEL ── */
+        div[style*="position:'fixed'"][style*="zIndex:200"]{padding:0!important;}
+
+        /* ── GLOBAL TOUCH TARGETS ── */
+        a,button{min-height:44px;touch-action:manipulation;}
+
+        /* ── ROOM DETAIL GALLERY ── */
+        div[style*="minmax(300px"]{grid-template-columns:1fr!important;}
+      }
+
+      /* ── EXTRA SMALL (iPhone SE, small Androids) ── */
+      @media(max-width:380px){
+        #home h1{font-size:26px!important;}
+        #home>div:last-child>div:nth-child(4){grid-template-columns:1fr 1fr!important;}
+        #amenities>div>div:last-child{grid-template-columns:1fr 1fr!important;}
+        #food>div>div>div:last-child{grid-template-columns:1fr 1fr!important;}
+        #gallery>div>div:last-child{grid-template-columns:1fr 1fr!important;grid-auto-rows:130px!important;}
+      }
+
+      /* ── DESKTOP TWEAKS ── */
+      @media(min-width:769px){
+        .mobile-bottom-bar{display:none!important;}
       }
     `;
     document.head.appendChild(style);
@@ -1165,6 +1368,7 @@ export default function App(){
     <Contact/>
     <Footer/>
     <FloatingWA/>
+    <MobileBottomBar/>
     <Chatbot/>
     {showAdmin&&<AdminPanel siteData={siteData} setSiteData={setSiteData} onClose={()=>setShowAdmin(false)}/>}
   </>);
